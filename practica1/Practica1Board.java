@@ -3,7 +3,6 @@
  */
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
-
 import java.util.Scanner;
 
 public class Practica1Board {
