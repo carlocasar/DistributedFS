@@ -1,4 +1,4 @@
-/*!
+/*
  * Representacion del estado de la practica 1
  */
 import IA.DistFS.Requests;
