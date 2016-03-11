@@ -34,7 +34,7 @@ public class Practica1Board {
         }
     }
 
-     public static void main(String[] args){
+     /*public static void main(String[] args){
 
          Scanner s = new Scanner(System.in);
         System.out.println("Introduce seed, numero de usuarios, numero de requests, numero de servers, numero de replicaciones:");
@@ -55,13 +55,13 @@ public class Practica1Board {
          for (int i = 0; i < board.requests.size(); ++i){
              System.out.println("Request " + i + " servidor " + board.servReq.get(i));
          }
-     }
+     }*/
 
     /*
     Este algoritmo encuentra una solución muy sencilla: pregunta que servidores contienen el archivo del que se hace
      request y, al primero que encuentra, le envia la request.
      */
-    public static Vector<Integer> solIni1(Practica1Board board){
+    public Vector<Integer> solIni1(Practica1Board board){
         Vector<Integer> servReq = new Vector<Integer>(board.requests.size());
         //vamos a iterar sobre todas las request para asignarles un servidor
         for (int i = 0; i < board.requests.size(); ++i) {
