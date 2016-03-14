@@ -78,4 +78,30 @@ public class Practica1Board {
         return servReq;
     }
 
+    public Vector<Integer> solIni2(Practica1Board board){
+        Vector<Integer> servReq = new Vector<Integer>(board.requests.size());
+        Vector<Integer> numReqServ = new Vector<Integer>(board.servers.size(),0);
+        //vamos a iterar sobre todas las request para asignarles un servidor
+        for (int i = 0; i < board.requests.size(); ++i) {
+            //aqui se coge el archivo
+            int fileReq = board.requests.getRequest(i)[1];
+            //se pregunta en que servidores esta
+            Set<Integer> set = board.servers.fileLocations(fileReq);
+            //aqui se hace el proceso de iterar sobre el set. No se hace mas que una vez porque es un algoritmo de
+            //mierda, pero se tendria que hacer un for para iterar sobre los demas
+            int min = 0;
+            Integer aux = 0;
+            Iterator<Integer> it = set.iterator();
+            while(it.hasNext()) {
+                Integer server = it.next();
+                if(min < numReqServ.get(board.servers.hashCode())){
+                    min = numReqServ.get(board.servers.hashCode());
+                    aux = server;
+                }
+            }
+            servReq.add(i, aux);
+        }
+        return servReq;
+    }
+
 }
