@@ -7,30 +7,40 @@ import IA.DistFS.Servers;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Practica1Board {
-    private int nServ; //Numero de servidores
-    private int nUser; //Numero de usuarios
-    private int nUsMaxReq; //Numero de requests maximas por usuario
-    private int nReq; //Numero de requests
-    private int nRepl; //Numero de replicaciones minimas
-    private int seed;
-    private Vector<Integer> servReq; //Un vector de nReq posiciones indicando en cada posición, equivalente al request, a que servidor lo envia
-    private Requests requests; //Requests
-    private Servers servers; //Servidores
+    private static int nServ; //Numero de servidores
+    private static int nUser; //Numero de usuarios
+    private static int nReq; //Numero de requests
+    private static int nUsMaxReq; //Numero de requests maximas por usuario
+    private static int nRepl; //Numero de replicaciones minimas
+    private static Requests requests; //Requests
+    private static Servers servers; //Servidores
 
-    public Practica1Board(int users, int requs, int servs, int repls, int seed) {
-        this.nUser = users;
-        this.nServ = servs;
-        this.nReq = requs;
-        this.nRepl = repls;
-        this.seed = seed;
-        this.requests = new Requests(users,requs,seed);
+    private ArrayList<Integer> assigs; //Un vector de nReq posiciones indicando en cada posición, equivalente al request, a que servidor lo envia
+
+    public Practica1Board(int users, int requs, int servs, int repls, int seed)
+    {
+        nUser = users;
+        nServ = servs;
+        nReq = requs;
+        nRepl = repls;
+        requests = new Requests(users,requs,seed);
         try {
-            this.servers = new Servers(servs,repls,seed);
+            servers = new Servers(servs,repls,seed);
         } catch (Servers.WrongParametersException e) {
             e.printStackTrace();
+        }
+        for (int i = 0; i < requests.size(); ++i){
+            System.out.println(requests.getRequest(i)[1]);
+            Set<Integer> set = servers.fileLocations(requests.getRequest(i)[1]);
+            Iterator<Integer> it = set.iterator();
+            while(it.hasNext()) {
+                Integer server = it.next();
+                System.out.print(server + " ");
+            }
+            System.out.println();
         }
     }
 
@@ -50,10 +60,10 @@ public class Practica1Board {
             System.out.print(board.requests.getRequest(i)[0] + " ");
             System.out.println(board.requests.getRequest(i)[1]);
         }
-         board.servReq = solIni1(board);
+         board.assigs = solIni1(board);
          System.out.println("Ahora saco por pantalla las requests y a que servidor iran:");
          for (int i = 0; i < board.requests.size(); ++i){
-             System.out.println("Request " + i + " servidor " + board.servReq.get(i));
+             System.out.println("Request " + i + " servidor " + board.assigs.get(i));
          }
      }*/
 
@@ -61,32 +71,32 @@ public class Practica1Board {
     Este algoritmo encuentra una solución muy sencilla: pregunta que servidores contienen el archivo del que se hace
      request y, al primero que encuentra, le envia la request.
      */
-    public Vector<Integer> solIni1(Practica1Board board){
-        Vector<Integer> servReq = new Vector<Integer>(board.requests.size());
+    public ArrayList<Integer> solIni1(){
+        ArrayList<Integer> assigs = new ArrayList<Integer>(requests.size());
         //vamos a iterar sobre todas las request para asignarles un servidor
-        for (int i = 0; i < board.requests.size(); ++i) {
+        for (int i = 0; i < requests.size(); ++i) {
             //aqui se coge el archivo
-            int fileReq = board.requests.getRequest(i)[1];
+            int fileReq = requests.getRequest(i)[1];
             //se pregunta en que servidores esta
-            Set<Integer> set = board.servers.fileLocations(fileReq);
+            Set<Integer> set = servers.fileLocations(fileReq);
             //aqui se hace el proceso de iterar sobre el set. No se hace mas que una vez porque es un algoritmo de
             //mierda, pero se tendria que hacer un for para iterar sobre los demas
             Iterator<Integer> it = set.iterator();
             Integer server = it.next();
-            servReq.add(i, server);
+            assigs.add(i, server);
         }
-        return servReq;
+        return assigs;
     }
 
-    public Vector<Integer> solIni2(Practica1Board board){
-        Vector<Integer> servReq = new Vector<Integer>(board.requests.size());
-        Vector<Integer> numReqServ = new Vector<Integer>(board.servers.size(),0);
+    public ArrayList<Integer> solIni2(){
+        ArrayList<Integer> assigs = new ArrayList<Integer>(requests.size());
+        ArrayList<Integer> numReqServ = new ArrayList<Integer>(servers.size());
         //vamos a iterar sobre todas las request para asignarles un servidor
-        for (int i = 0; i < board.requests.size(); ++i) {
+        for (int i = 0; i < requests.size(); ++i) {
             //aqui se coge el archivo
-            int fileReq = board.requests.getRequest(i)[1];
+            int fileReq = requests.getRequest(i)[1];
             //se pregunta en que servidores esta
-            Set<Integer> set = board.servers.fileLocations(fileReq);
+            Set<Integer> set = servers.fileLocations(fileReq);
             //aqui se hace el proceso de iterar sobre el set. No se hace mas que una vez porque es un algoritmo de
             //mierda, pero se tendria que hacer un for para iterar sobre los demas
             int min = 0;
@@ -94,14 +104,46 @@ public class Practica1Board {
             Iterator<Integer> it = set.iterator();
             while(it.hasNext()) {
                 Integer server = it.next();
-                if(min < numReqServ.get(board.servers.hashCode())){
-                    min = numReqServ.get(board.servers.hashCode());
+                if(min < numReqServ.get(servers.hashCode())){
+                    min = numReqServ.get(servers.hashCode());
                     aux = server;
                 }
             }
-            servReq.add(i, aux);
+            assigs.add(i, aux);
         }
-        return servReq;
+        return assigs;
     }
 
+
+    public Servers getServers() {
+        return servers;
+    }
+
+    public int getnServ() {
+        return nServ;
+    }
+
+    public int getnUser() {
+        return nUser;
+    }
+
+    public int getnUsMaxReq() {
+        return nUsMaxReq;
+    }
+
+    public int getnReq() {
+        return nReq;
+    }
+
+    public int getnRepl() {
+        return nRepl;
+    }
+
+    public ArrayList<Integer> getServReq() {
+        return assigs;
+    }
+
+    public Requests getRequests() {
+        return requests;
+    }
 }

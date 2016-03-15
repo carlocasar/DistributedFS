@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -32,9 +33,9 @@ public class InOut extends JFrame{
                 int users = Integer.parseInt(userstxt.getText());
                 int maxrep = Integer.parseInt(maxreptxt.getText());
                 int maxreq = Integer.parseInt(maxreqtxt.getText());
-                Vector<Integer> v;
+                ArrayList<Integer> v;
                 Practica1Board p = new Practica1Board(users,maxreq,servers,maxrep,seed);
-                v = p.solIni1(p);
+                v = p.solIni1();
                 for (int i = 0; i < v.size(); ++i) results.addItem("Request " + i + " a servidor: " + v.get(i) + "\n");
             }
         });

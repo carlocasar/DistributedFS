@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="AIMA (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/practica1/AIMA.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
