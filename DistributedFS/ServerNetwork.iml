@@ -29,5 +29,9 @@
     <orderEntry type="library" name="DistribFileSystem (2)" level="project" />
     <orderEntry type="library" name="DistribFileSystem (2)" level="project" />
     <orderEntry type="library" name="AIMA (2)" level="project" />
+    <orderEntry type="library" name="#DistribFileSystem" level="project" />
+    <orderEntry type="library" name="#AIMA" level="project" />
+    <orderEntry type="library" name="#DistribFileSystem (2)" level="project" />
+    <orderEntry type="library" name="#AIMA (2)" level="project" />
   </component>
 </module>
