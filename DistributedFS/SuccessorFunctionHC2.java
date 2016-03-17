@@ -5,7 +5,6 @@ import IA.DistFS.Servers;
 import aima.search.framework.SuccessorFunction;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -18,7 +17,7 @@ public class SuccessorFunctionHC2 implements SuccessorFunction {
         Board board = (Board) estat;
         Servers servers = board.getServers();
         Requests requests = board.getRequests();
-        ArrayList<Integer> assigs = board.getServReq(); // Req -> Server
+        ArrayList<Integer> assigs = board.getAssignations(); // Req -> Server
 
         int nreq = requests.size();
         for (int req1 = 0; req1 < nreq; ++req1) {
