@@ -27,7 +27,8 @@ public class SuccessorFunctionHC2 implements SuccessorFunction {
                 Set<Integer> replications2 = servers.fileLocations(requests.getRequest(req2)[1]);
                 if (replications1.contains(assigs.get(req2)) && replications2.contains(assigs.get(req1)) ) {
                     Board successor = new Board(board);
-                    llistaSuccessors.add(successor.swap(req1, req2));
+                    successor.swap(req1, req2);
+                    llistaSuccessors.add(successor);
                 }
             }
         }

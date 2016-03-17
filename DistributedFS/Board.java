@@ -44,6 +44,26 @@ public class Board {
         }
     }
 
+    public Board(Board original)
+    {
+        this.assigs = new ArrayList<Integer>(original.assigs);
+        // + materializados aun no definidos
+    }
+
+    public void move(int req, int serv)
+    {
+        assigs.set(req,serv);
+        // + materializados aun no definidos
+    }
+
+    public void swap(int req1, int req2)
+    {
+        int aux = assigs.get(req1);
+        assigs.set(req1,assigs.get(req2));
+        assigs.set(req2,aux);
+        // + materializados aun no definidos
+    }
+
      /*public static void main(String[] args){
 
          Scanner s = new Scanner(System.in);
