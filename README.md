@@ -1,2 +1,2 @@
-# Practica1
+# DistributedFS
 Practica 1 de IA
