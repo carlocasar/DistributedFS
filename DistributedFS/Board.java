@@ -1,15 +1,15 @@
 /*
- * Representacion del estado de la practica 1
+ * Representacion del estado y soluciones iniciales.
  */
+
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
 
 import java.util.Iterator;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.ArrayList;
 
-public class Practica1Board {
+public class Board {
     private static int nServ; //Numero de servidores
     private static int nUser; //Numero de usuarios
     private static int nReq; //Numero de requests
@@ -20,7 +20,7 @@ public class Practica1Board {
 
     private ArrayList<Integer> assigs; //Un vector de nReq posiciones indicando en cada posición, equivalente al request, a que servidor lo envia
 
-    public Practica1Board(int users, int requs, int servs, int repls, int seed)
+    public Board(int users, int requs, int servs, int repls, int seed)
     {
         nUser = users;
         nServ = servs;
@@ -42,6 +42,26 @@ public class Practica1Board {
             }
             System.out.println();
         }
+    }
+
+    public Board(Board original)
+    {
+        this.assigs = new ArrayList<Integer>(original.assigs);
+        // + materializados aun no definidos
+    }
+
+    public void move(int req, int serv)
+    {
+        assigs.set(req,serv);
+        // + materializados aun no definidos
+    }
+
+    public void swap(int req1, int req2)
+    {
+        int aux = assigs.get(req1);
+        assigs.set(req1,assigs.get(req2));
+        assigs.set(req2,aux);
+        // + materializados aun no definidos
     }
 
      /*public static void main(String[] args){
