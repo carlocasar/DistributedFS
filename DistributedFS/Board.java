@@ -10,21 +10,21 @@ import java.util.Set;
 import java.util.ArrayList;
 
 public class Board {
-    private static int nServers; //Numero de servidores
-    private static int nUsers; //Numero de usuarios
-    private static int nRequests; //Numero de requests
-    private static Requests requests; //Requests
-    private static Servers servers; //Servidores
-
+    private static int nServers;                // Number of servers
+    private static int nUsers;                  // Number of users
+    private static int nRequests;               // Number of requests
+    private static Requests requests;           // Requests
+    private static Servers servers;             // Servers
+    private int criterio;                       // criterio de calidad de la solucion,
+                                                // condiciona los atributos materializados.
     private ArrayList<Integer> assignations;    // assignations : request -> server.
+
     private ArrayList<Integer> serverTimes;     // serverTimes : server -> server transmission time.
     private int totalTransmissionTime;          // sum of server times.
     private int totalSquareTime;                // sum of server times^2, needed for std deviation.
     private int maxServerTime;                  // maximum of server times.
     private int maxTimeServers;                 // number of servers with maxServerTime.
 
-    private int criterio;                       // criterio de calidad de la solucion,
-                                                // condiciona los atributos materializados.
 
     public Board(int users, int requs, int servs, int repls, int seed)
     {
@@ -49,7 +49,6 @@ public class Board {
     public Board(Board original)
     {
         this.assignations = new ArrayList<Integer>(original.assignations);
-        this.serverTimes = new ArrayList<Integer>(original.serverTimes);
     }
 
      /*public static void main(String[] args){
@@ -123,6 +122,31 @@ public class Board {
         return assignations;
     }
 
+    private void initMaterialized() {
+        initServerTimes();
+        if (criterio == 1) reloadMaxTime();
+        else if (criterio == 2) initTotalSquaredTime();
+    }
+
+    private void initServerTimes() {
+        totalTransmissionTime = 0;
+
+        for (int i = 0; i < nRequests; ++i) {
+            int user = requests.getRequest(i)[0];
+            int server = assignations.get(i);
+            int requestTime = servers.tranmissionTime(server,user);
+            totalTransmissionTime += requestTime;
+            serverTimes.set(server,(serverTimes.get(server) + requestTime));
+        }
+    }
+
+    private void initTotalSquaredTime() {
+        totalSquareTime = 0;
+
+        for (int i = 0; i < nServers; ++i)
+            totalSquareTime += serverTimes.get(i) * serverTimes.get(i);
+    }
+
     public void move(int request, int newServer)
     {
         if (criterio == 1) move1(request,newServer);
@@ -135,17 +159,78 @@ public class Board {
         else if (criterio == 2) swap2(req1,req2);
     }
 
-    public void move1(int request, int newServer)
-    {
-        // funcion para el criterio 1. aquí entran en juego todos los materializados excepto squared.
+    private void move1(int request, int newServer) {
+        int user = requests.getRequest(request)[0];
+        int oldServer = assignations.get(request);
+
+        int time1 = serverTimes.get(oldServer);
+        int time2 = time1 - servers.tranmissionTime(oldServer, user);
+        totalTransmissionTime -= servers.tranmissionTime(oldServer, user);
+        serverTimes.set(oldServer, time2);
+
+        assignations.set(request, newServer);
+
+        time2 = serverTimes.get(newServer);
+        time2 += servers.tranmissionTime(newServer, user);
+        totalTransmissionTime += servers.tranmissionTime(newServer, user);
+        serverTimes.set(newServer, time2);
+
+        processMaxTimes(time1,time2);
     }
 
-    public void swap1(int req1, int req2)
-    {
-        // idem.
+    private void swap1(int req1, int req2) {
+        int user1 = requests.getRequest(req1)[0];
+        int user2 = requests.getRequest(req2)[0];
+        int serv1 = assignations.get(req1);
+        int serv2 = assignations.get(req2);
+
+        int time1 = serverTimes.get(serv1);
+        totalTransmissionTime -= time1;
+        int time2 = time1 - servers.tranmissionTime(serv1, user1);
+        assignations.set(req2, serv1);
+        time2 += servers.tranmissionTime(serv1, user2);
+        totalTransmissionTime += time2;
+        serverTimes.set(serv1, time2);
+        processMaxTimes(time1, time2);
+
+        time1 = serverTimes.get(serv2);
+        totalTransmissionTime -= time1;
+        time2 = time1 - servers.tranmissionTime(serv2, user2);
+        assignations.set(req1, serv2);
+        time2 += servers.tranmissionTime(serv2, user1);
+        totalTransmissionTime += time2;
+        serverTimes.set(serv2, time2);
+        processMaxTimes(time1, time2);
     }
 
-    public void move2(int request, int newServer)
+    private void processMaxTimes(int time1, int time2) {
+        if (time2 > maxServerTime) {
+            maxServerTime = time2;
+            maxTimeServers = 1;
+        }
+        else {
+            if (time2 == maxServerTime) ++maxTimeServers;
+            if (time1 == maxServerTime) {
+                --maxTimeServers;
+                if (maxTimeServers == 0) reloadMaxTime();
+            }
+        }
+    }
+
+    private void reloadMaxTime() {
+        maxServerTime = 0;
+        maxTimeServers = 0;
+
+        for (int i = 0; i < nServers; ++i) {
+            if (serverTimes.get(i) == maxServerTime) ++maxTimeServers;
+            else if (serverTimes.get(i) > maxServerTime) {
+                maxServerTime = serverTimes.get(i);
+                maxTimeServers = 1;
+            }
+        }
+    }
+
+    private void move2(int request, int newServer)
     {
         int user = requests.getRequest(request)[0];
         int oldServer = assignations.get(request);
@@ -167,7 +252,7 @@ public class Board {
         totalSquareTime += (time*time);
     }
 
-    public void swap2(int req1, int req2)
+    private void swap2(int req1, int req2)
     {
         int user1 = requests.getRequest(req1)[0];
         int user2 = requests.getRequest(req2)[0];

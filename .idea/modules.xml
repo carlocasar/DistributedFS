@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DistributedFS/DistributedFS.iml" filepath="$PROJECT_DIR$/DistributedFS/DistributedFS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/DistributedFS/DistributedFS.iml" filepath="$PROJECT_DIR$/DistributedFS/DistributedFS.iml" />
     </modules>
   </component>
 </project>
