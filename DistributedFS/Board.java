@@ -319,8 +319,4 @@ public class Board {
     public int getMaxServerTime() {
         return maxServerTime;
     }
-
-    public int getMaxTimeServers() {
-        return maxTimeServers;
-    }
 }
