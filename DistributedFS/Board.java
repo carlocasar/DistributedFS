@@ -15,7 +15,7 @@ public class Board {
     private static int nRequests;               // Number of requests
     private static Requests requests;           // Requests
     private static Servers servers;             // Servers
-    private int criterio;                       // criterio de calidad de la solucion,
+    private static int criterio;                // criterio de calidad de la solucion,
                                                 // condiciona los atributos materializados.
     private ArrayList<Integer> assignations;    // assignations : request -> server.
 
@@ -26,8 +26,9 @@ public class Board {
     private int maxTimeServers;                 // number of servers with maxServerTime.
 
 
-    public Board(int users, int requs, int servs, int repls, int seed)
+    public Board(int users, int requs, int servs, int repls, int seed, int crit)
     {
+        criterio = crit;
         nUsers = users;
         nServers = servs;
         nRequests = requs;
@@ -48,7 +49,16 @@ public class Board {
 
     public Board(Board original)
     {
-        this.assignations = new ArrayList<Integer>(original.assignations);
+        nServers = original.getnServers();
+        nUsers = original.getnUsers();
+        nRequests = original.getnRequests();
+        requests = original.getRequests();
+        servers = original.getServers();
+        assignations = new ArrayList<Integer>(original.getAssignations());
+        criterio = original.getCriterio();
+        serverTimes = new ArrayList<Integer>(nServers);
+        for (int i = 0; i < nServers; ++i) serverTimes.add(0);
+        initServerTimes();
     }
 
      /*public static void main(String[] args){
@@ -78,8 +88,8 @@ public class Board {
     Este algoritmo encuentra una solución muy sencilla: pregunta que servidores contienen el archivo del que se hace
      request y, al primero que encuentra, le envia la request.
      */
-    public ArrayList<Integer> solIni1(){
-        ArrayList<Integer> assignations = new ArrayList<Integer>(requests.size());
+    public void solIni1(){
+        assignations = new ArrayList<Integer>(requests.size());
         //vamos a iterar sobre todas las request para asignarles un servidor
         for (int i = 0; i < requests.size(); ++i) {
             //aqui se coge el archivo
@@ -93,11 +103,11 @@ public class Board {
             assignations.add(i, server);
 
         }
-        return assignations;
+        //return assignations;
     }
 
-    public ArrayList<Integer> solIni2(){
-        ArrayList<Integer> assignations = new ArrayList<Integer>(requests.size());
+    public void solIni2(){
+        assignations = new ArrayList<Integer>(requests.size());
         ArrayList<Integer> numReqServ = new ArrayList<Integer>(servers.size());
         //vamos a iterar sobre todas las request para asignarles un servidor
         for (int i = 0; i < requests.size(); ++i) {
@@ -119,7 +129,7 @@ public class Board {
             }
             assignations.add(i, aux);
         }
-        return assignations;
+        //return assignations;
     }
 
     private void initMaterialized() {
@@ -292,15 +302,15 @@ public class Board {
         return assignations;
     }
 
-    public static int getnServers() {
+    public int getnServers() {
         return nServers;
     }
 
-    public static int getnUsers() {
+    public int getnUsers() {
         return nUsers;
     }
 
-    public static int getnRequests() {
+    public int getnRequests() {
         return nRequests;
     }
 
@@ -318,5 +328,21 @@ public class Board {
 
     public int getMaxServerTime() {
         return maxServerTime;
+    }
+
+    public int getCriterio() {
+        return criterio;
+    }
+
+    public String toString() {
+        // retorna estat explicat en un string
+        String s = "";
+        int numServ;
+        for (int i = 0; i < assignations.size(); i++) {
+            numServ = assignations.get(i);
+            s = s.concat("request " + i + " server " + numServ + " | ");
+        }
+        s = s.concat("\n");
+        return s;
     }
 }

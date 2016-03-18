@@ -3,6 +3,7 @@
 
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
+import aima.search.framework.Successor;
 import aima.search.framework.SuccessorFunction;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class SuccessorFunctionHC1 implements SuccessorFunction {
             while (repl.hasNext()) {
                 Board successor = new Board(board);
                 successor.move(req,repl.next());
-                llistaSuccessors.add(successor);
+                llistaSuccessors.add(new Successor(successor.toString(),successor));
             }
         }
 

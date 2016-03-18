@@ -6,7 +6,7 @@ public class HeuristicFunction2A implements HeuristicFunction
     @Override
     public double getHeuristicValue(Object o) {
         Board board = (Board) o;
-        int nServers = Board.getnServers();
+        int nServers = board.getnServers();
         int totalTransmissionTime = board.getTotalTransmissionTime();
         int totalSquareTime = board.getTotalSquareTime();
 
