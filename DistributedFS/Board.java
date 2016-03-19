@@ -124,8 +124,8 @@ public class Board {
             Iterator<Integer> it = set.iterator();
             while(it.hasNext()) {
                 Integer server = it.next();
-                if(min < numReqServ.get(servers.hashCode())){
-                    min = numReqServ.get(servers.hashCode());
+                if(min < numReqServ.get(server)){
+                    min = numReqServ.get(server);
                     aux = server;
                 }
             }
