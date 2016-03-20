@@ -56,9 +56,8 @@ public class Board {
         servers = original.getServers();
         assignations = new ArrayList<Integer>(original.getAssignations());
         criterio = original.getCriterio();
-        serverTimes = new ArrayList<Integer>(nServers);
-        for (int i = 0; i < nServers; ++i) serverTimes.add(0);
-        initServerTimes();
+        serverTimes = new ArrayList<Integer>(original.getServerTimes());
+        maxServerTime = original.getMaxServerTime();
     }
 
      /*public static void main(String[] args){
@@ -103,6 +102,9 @@ public class Board {
             assignations.add(i, server);
 
         }
+        initServerTimes();
+        reloadMaxTime();
+        System.out.println(serverTimes);
         //return assignations;
     }
 
@@ -141,7 +143,7 @@ public class Board {
     private void initServerTimes() {
         totalTransmissionTime = 0;
 
-        for (int i = 0; i < nRequests; ++i) {
+        for (int i = 0; i < requests.size(); ++i) {
             int user = requests.getRequest(i)[0];
             int server = assignations.get(i);
             int requestTime = servers.tranmissionTime(server,user);

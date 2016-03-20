@@ -47,6 +47,8 @@ public class Demo {
                 break;
             case 2 : hf = new HeuristicFunction2A();
                 break;
+            case 3 : hf = new HeuristicFunction3A();
+                break;
             default : hf = new HeuristicFunction1A();
                 break;
         }
