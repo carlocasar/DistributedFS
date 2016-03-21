@@ -58,6 +58,7 @@ public class Board {
         criterio = original.getCriterio();
         serverTimes = new ArrayList<Integer>(original.getServerTimes());
         maxServerTime = original.getMaxServerTime();
+        totalTransmissionTime = original.getTotalTransmissionTime();
     }
 
      /*public static void main(String[] args){

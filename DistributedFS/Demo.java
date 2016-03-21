@@ -18,7 +18,7 @@ public class Demo {
         int iSol = s.nextInt();
         int heu = s.nextInt();
         int sGen = s.nextInt();
-        Board board = new Board(200,5,50,5,1234,1);
+        Board board = new Board(50,5,50,5,1234,1);
 
         switch (iSol) {
             case 1 : board.solIni1();
