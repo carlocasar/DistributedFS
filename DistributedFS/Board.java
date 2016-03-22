@@ -8,6 +8,7 @@ import IA.DistFS.Servers;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Board {
     private static int nServers;                // Number of servers
@@ -111,7 +112,7 @@ public class Board {
 
     public void solIni2(){
         assignations = new ArrayList<Integer>(requests.size());
-        ArrayList<Integer> numReqServ = new ArrayList<Integer>(servers.size());
+        ArrayList<Integer> numReqServ = new ArrayList<Integer>(Collections.nCopies(servers.size(), 0));
         //vamos a iterar sobre todas las request para asignarles un servidor
         for (int i = 0; i < requests.size(); ++i) {
             //aqui se coge el archivo
@@ -130,6 +131,7 @@ public class Board {
                     aux = server;
                 }
             }
+            numReqServ.set(aux, aux + 1);
             assignations.add(i, aux);
         }
         //return assignations;
