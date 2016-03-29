@@ -137,6 +137,29 @@ public class Board {
         //return assignations;
     }
 
+    public void solIni3(){
+        assignations = new ArrayList<Integer>(requests.size());
+        ArrayList<Iterator<Integer>> iterForReq = new ArrayList<Iterator<Integer>>(requests.size());
+        //vamos a iterar sobre todas las request para asignarles un servidor
+        for (int i = 0; i < requests.size(); ++i) {
+            //aqui se coge el archivo
+            int fileReq = requests.getRequest(i)[1];
+
+            Set<Integer> set = servers.fileLocations(fileReq);
+            Iterator<Integer> it = iterForReq.get(fileReq);
+            //miramos si es la primera vez del iterador o si este ha llegado al final y lo ponemos al principio del set
+            //en caso contrario avanzamos al siguiente server.
+            if (it == null || !it.hasNext()) it = set.iterator();
+            Integer server = it.next();
+            iterForReq.set(fileReq,it);
+            assignations.add(i, server);
+        }
+        initServerTimes();
+        reloadMaxTime();
+        System.out.println(serverTimes);
+        //return assignations;
+    }
+
     private void initMaterialized() {
         initServerTimes();
         if (criterio == 1) reloadMaxTime();
