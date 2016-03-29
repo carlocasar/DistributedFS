@@ -1,6 +1,7 @@
 
 import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;
+import aima.search.informed.SimulatedAnnealingSearch;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,8 @@ public class Demo {
         int iSol = s.nextInt();
         int heu = s.nextInt();
         int sGen = s.nextInt();
-        Board board = new Board(50,5,50,5,1234,1);
+        int HCorSA = s.nextInt();
+        Board board = new Board(20,5,20,5,1234,1);
 
         switch (iSol) {
             case 1 : board.solIni1();
@@ -53,16 +55,32 @@ public class Demo {
                 break;
         }
 
-        try {
-            Problem problem = new Problem(board, sucGen, new GoalFalseTest(), hf);
-            Search search = new HillClimbingSearch();
-            SearchAgent agent = new SearchAgent(problem, search);
+        if (HCorSA == 1) {
+            try {
+                Problem problem = new Problem(board, sucGen, new GoalFalseTest(), hf);
+                Search search = new HillClimbingSearch();
+                SearchAgent agent = new SearchAgent(problem, search);
 
-            System.out.println();
-            printActions(agent.getActions());
-            printInstrumentation(agent.getInstrumentation());
-        } catch (Exception var4) {
-            var4.printStackTrace();
+                System.out.println();
+                printActions(agent.getActions());
+                printInstrumentation(agent.getInstrumentation());
+            } catch (Exception var4) {
+                var4.printStackTrace();
+            }
+        }
+        else {
+            try {
+                Problem problem = new Problem(board, sucGen, new GoalFalseTest(), hf);
+                SimulatedAnnealingSearch search = new SimulatedAnnealingSearch(20,100,5,0.001);
+                search.traceOn();
+                SearchAgent agent = new SearchAgent(problem, search);
+
+                System.out.println();
+                printActions(agent.getActions());
+                printInstrumentation(agent.getInstrumentation());
+            } catch (Exception var4) {
+                var4.printStackTrace();
+            }
         }
     }
 

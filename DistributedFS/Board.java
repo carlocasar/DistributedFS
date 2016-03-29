@@ -24,6 +24,9 @@ public class Board {
     private int totalTransmissionTime;          // sum of server times.
     private int totalSquareTime;                // sum of server times^2, needed for std deviation.
     private int maxServerTime;                  // maximum of server times.
+
+
+
     private int maxTimeServers;                 // number of servers with maxServerTime.
 
 
@@ -60,6 +63,8 @@ public class Board {
         serverTimes = new ArrayList<Integer>(original.getServerTimes());
         maxServerTime = original.getMaxServerTime();
         totalTransmissionTime = original.getTotalTransmissionTime();
+        totalSquareTime = original.getTotalSquareTime();
+        maxTimeServers = original.getMaxTimeServers();
     }
 
      /*public static void main(String[] args){
@@ -339,6 +344,8 @@ public class Board {
         return criterio;
     }
 
+    public int getMaxTimeServers() {return maxTimeServers;    }
+
     public String toString() {
         // retorna estat explicat en un string
         String s = "";
@@ -348,6 +355,7 @@ public class Board {
             s = s.concat("request " + i + " server " + numServ + " | ");
         }
         s = s.concat("\n");
+        s = s.concat(String.valueOf(maxServerTime));
         return s;
     }
 }
