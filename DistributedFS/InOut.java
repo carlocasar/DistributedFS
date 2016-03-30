@@ -33,8 +33,9 @@ public class InOut extends JFrame{
                 int maxrep = Integer.parseInt(maxreptxt.getText());
                 int maxreq = Integer.parseInt(maxreqtxt.getText());
                 ArrayList<Integer> v;
-                Board p = new Board(users,maxreq,servers,maxrep,seed);
-                v = p.solIni1();
+                Board p = new Board(users,maxreq,servers,maxrep,seed,1);
+                p.solIni1();
+                v = p.getAssignations();
                 for (int i = 0; i < v.size(); ++i) results.addItem("Request " + i + " a servidor: " + v.get(i) + "\n");
             }
         });
