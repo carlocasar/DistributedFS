@@ -27,8 +27,9 @@ public class SuccessorFunctionHC1 implements SuccessorFunction {
             Iterator<Integer> repl = replications.iterator();
             while (repl.hasNext()) {
                 Board successor = new Board(board);
-                successor.move(req,repl.next());
-                llistaSuccessors.add(new Successor(successor.toString(),successor));
+                int next = repl.next();
+                successor.move(req,next);
+                llistaSuccessors.add(new Successor("Request " + req + " a server " + next, successor));
             }
         }
 
