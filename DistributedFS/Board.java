@@ -5,10 +5,7 @@
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class Board {
     private static int nServers;                // Number of servers
@@ -144,19 +141,17 @@ public class Board {
 
     public void solIni3(){
         assignations = new ArrayList<Integer>(requests.size());
-        ArrayList<Iterator<Integer>> iterForReq = new ArrayList<Iterator<Integer>>(requests.size());
+        Map<Integer, Iterator<Integer>> fileDic = new HashMap<Integer, Iterator<Integer>>();
         //vamos a iterar sobre todas las request para asignarles un servidor
         for (int i = 0; i < requests.size(); ++i) {
             //aqui se coge el archivo
             int fileReq = requests.getRequest(i)[1];
 
-            Set<Integer> set = servers.fileLocations(fileReq);
-            Iterator<Integer> it = iterForReq.get(fileReq);
-            //miramos si es la primera vez del iterador o si este ha llegado al final y lo ponemos al principio del set
-            //en caso contrario avanzamos al siguiente server.
-            if (it == null || !it.hasNext()) it = set.iterator();
+            if(! fileDic.containsKey(fileReq))
+                fileDic.put(fileReq,servers.fileLocations(fileReq).iterator());
+            Iterator<Integer> it = fileDic.get(fileReq);
+            if(!it.hasNext()) it = servers.fileLocations(fileReq).iterator();
             Integer server = it.next();
-            iterForReq.set(fileReq,it);
             assignations.add(i, server);
         }
         initServerTimes();
