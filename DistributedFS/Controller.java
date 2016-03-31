@@ -12,8 +12,14 @@ public class Controller {
     public static void Hill_Climbing(int seed, int nUsers, int nRequests, int nServers, int minReplications,
                                      int solIni, String operatorS, char heuristic, int criterion)
     {
+        Results results = new Results();
         Board initState = new Board(nUsers,nRequests,nServers,minReplications,seed,criterion);
+        long iniTime = System.currentTimeMillis();
         initialSolution(initState,solIni);
+        long finIniTime = System.currentTimeMillis();
+
+        results.setSolIni(iniTime, finIniTime, initState.getTotalTransmissionTime());
+        
         SuccessorFunction successorGen = operatorSet(operatorS,"Hill Climbing");
         HeuristicFunction heuristicF = heuristic(criterion,heuristic);
         try {
@@ -22,6 +28,10 @@ public class Controller {
             Search search = new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem, search);       // La excepcion solo la tira esto. weird...
             long endTime = System.currentTimeMillis();
+
+            results.setSearchTime(startTime, endTime);
+            results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
+            results.setTotalTime(iniTime,endTime);
 
             System.out.println();                                   // lo guay seria pasarle el search agent
             //printActions(agent.getActions());                       // al main y que soltar la salida desde ahi.
