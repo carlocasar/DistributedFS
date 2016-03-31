@@ -1,5 +1,6 @@
-// Hill Climbing - Operador Mover
-// Apunte: se añade el estado actual como sucesor. Pero considero que eso es mejor que poner un if en el bucle.
+/*
+ * Conjunto de operadores: Mover
+ */
 
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
@@ -8,7 +9,6 @@ import aima.search.framework.SuccessorFunction;
 
 import java.util.*;
 
-// Operador Mover
 public class SuccessorFunction1 implements SuccessorFunction {
 
     boolean HC;

@@ -13,7 +13,7 @@ public class Board {
     private static int nRequests;               // Number of requests
     private static Requests requests;           // Requests
     private static Servers servers;             // Servers
-    private static int criterio;                // criterio de calidad de la solucion,
+    private static int criterion;               // criterio para la calidad de la solucion,
                                                 // condiciona los atributos materializados.
     private ArrayList<Integer> assignations;    // assignations : request -> server.
 
@@ -21,31 +21,26 @@ public class Board {
     private int totalTransmissionTime;          // sum of server times.
     private int totalSquareTime;                // sum of server times^2, needed for std deviation.
     private int maxServerTime;                  // maximum of server times.
-
-
-
     private int maxTimeServers;                 // number of servers with maxServerTime.
 
 
     public Board(int users, int requs, int servs, int repls, int seed, int crit)
     {
-        criterio = crit;
+        criterion = crit;
         nUsers = users;
         nServers = servs;
         nRequests = requs;
 
-        requests = new Requests(users,requs,seed);
         try {
+            requests = new Requests(users,requs,seed);
             servers = new Servers(servs,repls,seed);
-        } catch (Servers.WrongParametersException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         serverTimes = new ArrayList<Integer>();
         for (int i = 0; i < nServers; ++i) serverTimes.add(0);
         totalTransmissionTime = totalSquareTime = maxServerTime = maxTimeServers = 0;
-
-        // criterio = parametro de entrada!
     }
 
     public Board(Board original)
@@ -56,36 +51,13 @@ public class Board {
         requests = original.getRequests();
         servers = original.getServers();
         assignations = new ArrayList<Integer>(original.getAssignations());
-        criterio = original.getCriterio();
+        criterion = original.getCriterion();
         serverTimes = new ArrayList<Integer>(original.getServerTimes());
         maxServerTime = original.getMaxServerTime();
         totalTransmissionTime = original.getTotalTransmissionTime();
         totalSquareTime = original.getTotalSquareTime();
         maxTimeServers = original.getMaxTimeServers();
     }
-
-     /*public static void main(String[] args){
-
-         Scanner s = new Scanner(System.in);
-        System.out.println("Introduce seed, numero de usuarios, numero de requests, numero de servers, numero de replicaciones:");
-         int seed = s.nextInt();
-         int nUsers = s.nextInt();
-         int nRequs = s.nextInt();
-         int nServ = s.nextInt();
-         int nRepls = s.nextInt();
-         Practica1Board board = new Practica1Board(nUsers,nRequs,nServ,nRepls,seed);
-         System.out.println("Ahora haré print de todos los datos para comprobar que realmente crea lo que queremos:");
-         System.out.println("Número de requests totales: " + board.requests.size());
-        for (int i = 0; i < board.requests.size(); ++i){
-            System.out.print(board.requests.getRequest(i)[0] + " ");
-            System.out.println(board.requests.getRequest(i)[1]);
-        }
-         board.assignations = solIni1(board);
-         System.out.println("Ahora saco por pantalla las requests y a que servidor iran:");
-         for (int i = 0; i < board.requests.size(); ++i){
-             System.out.println("Request " + i + " servidor " + board.assignations.get(i));
-         }
-     }*/
 
     /*
     Este algoritmo encuentra una solución muy sencilla: pregunta que servidores contienen el archivo del que se hace
@@ -162,8 +134,8 @@ public class Board {
 
     private void initMaterialized() {
         initServerTimes();
-        if (criterio == 1) reloadMaxTime();
-        else if (criterio == 2) initTotalSquaredTime();
+        if (criterion == 1) reloadMaxTime();
+        else if (criterion == 2) initTotalSquaredTime();
     }
 
     private void initServerTimes() {
@@ -187,14 +159,14 @@ public class Board {
 
     public void move(int request, int newServer)
     {
-        if (criterio == 1) move1(request,newServer);
-        else if (criterio == 2) move2(request,newServer);
+        if (criterion == 1) move1(request,newServer);
+        else if (criterion == 2) move2(request,newServer);
     }
 
     public void swap(int req1, int req2)
     {
-        if (criterio == 1) swap1(req1,req2);
-        else if (criterio == 2) swap2(req1,req2);
+        if (criterion == 1) swap1(req1,req2);
+        else if (criterion == 2) swap2(req1,req2);
     }
 
     private void move1(int request, int newServer) {
@@ -358,8 +330,8 @@ public class Board {
         return maxServerTime;
     }
 
-    public int getCriterio() {
-        return criterio;
+    public int getCriterion() {
+        return criterion;
     }
 
     public int getMaxTimeServers() {return maxTimeServers;    }

@@ -1,3 +1,6 @@
+/*
+ * Receives parameters of a LocalSearch, executes it, returns instrumentation.
+ */
 
 import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;

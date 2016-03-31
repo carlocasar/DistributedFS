@@ -1,3 +1,7 @@
+/*
+ * Transmission time of the most loaded server + (decimal part) number of servers with that time
+ */
+
 import aima.search.framework.HeuristicFunction;
 
 public class HeuristicFunction1B implements HeuristicFunction

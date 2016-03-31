@@ -27,7 +27,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="DistribFileSystem" level="project" />
     <orderEntry type="library" name="AIMA" level="project" />
+    <orderEntry type="library" name="DistribFileSystem" level="project" />
   </component>
 </module>

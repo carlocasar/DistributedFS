@@ -1,3 +1,6 @@
+/*
+ * Conjunto de operadores: Intercambiar
+ */
 
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
@@ -6,7 +9,6 @@ import aima.search.framework.SuccessorFunction;
 
 import java.util.*;
 
-// Operador Intercambiar
 public class SuccessorFunction2 implements SuccessorFunction {
 
     boolean HC;

@@ -1,6 +1,4 @@
-/**
- * Created by GERARD on 31/03/2016.
- */
+
 public class Results {
     private long solIniTime;
     private int solIniTrans;

@@ -1,3 +1,6 @@
+/*
+ * (Transmission time) -> mean + standard deviation
+ */
 
 import aima.search.framework.HeuristicFunction;
 

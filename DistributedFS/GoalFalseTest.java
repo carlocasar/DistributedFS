@@ -1,3 +1,4 @@
+
 import aima.search.framework.GoalTest;
 
 public class GoalFalseTest implements GoalTest {
