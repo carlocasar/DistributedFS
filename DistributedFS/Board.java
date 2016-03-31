@@ -373,7 +373,7 @@ public class Board {
             s = s.concat("request " + i + " server " + numServ + " | ");
         }
         s = s.concat("\n");
-        s = s.concat(String.valueOf(maxServerTime));
+        s = s.concat("Max server time = " + String.valueOf(maxServerTime) + " Total time = " + String.valueOf(totalTransmissionTime));
         return s;
     }
 }
