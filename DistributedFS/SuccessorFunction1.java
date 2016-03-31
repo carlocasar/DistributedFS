@@ -8,6 +8,7 @@ import aima.search.framework.SuccessorFunction;
 
 import java.util.*;
 
+// Operador Mover
 public class SuccessorFunction1 implements SuccessorFunction {
 
     boolean HC;
@@ -47,16 +48,18 @@ public class SuccessorFunction1 implements SuccessorFunction {
         Board board = (Board) estat;
         Servers servers = board.getServers();
         Requests requests = board.getRequests();
+        ArrayList<Integer> assigs = board.getAssignations();
 
         int nreq = requests.size();
         for (int req = 0; req < nreq; ++req) {
+            int presentServ = assigs.get(req);
             Set<Integer> replications = servers.fileLocations(requests.getRequest(req)[1]);
-            Iterator<Integer> repl = replications.iterator();
-            while (repl.hasNext()) {
+            Iterator<Integer> replication = replications.iterator();
+            while (replication.hasNext()) {
                 Board successor = new Board(board);
-                int next = repl.next();
-                successor.move(req,next);
-                llistaSuccessors.add(new Successor("Request " + req + " a server " + next, successor));
+                int nextServ = replication.next();
+                if (nextServ != presentServ) successor.move(req,nextServ);
+                llistaSuccessors.add(new Successor("Move "+req+" "+nextServ, successor));
             }
         }
 
@@ -70,23 +73,23 @@ public class SuccessorFunction1 implements SuccessorFunction {
         Board board = (Board) estat;
         Servers servers = board.getServers();
         Requests requests = board.getRequests();
-        Random random = new Random(System.currentTimeMillis());
 
-        int nreq = requests.size();
+        int req = seed.nextInt(requests.size());
+        int presentServ = board.getAssignations().get(req);
+        Set<Integer> replications = servers.fileLocations(requests.getRequest(req)[1]);
 
-        int randomReq = random.nextInt(nreq);
-        Set<Integer> replications = servers.fileLocations(requests.getRequest(randomReq)[1]);
-        Iterator<Integer> repl = replications.iterator();
-        int i = random.nextInt(replications.size());
-        int j = 0;
-        int next = 0;
-        while (j <= i) {
-            next = repl.next();
-            ++j;
+        int iterations = seed.nextInt(replications.size() - 1) + 1;
+        Iterator<Integer> iterator = replications.iterator();
+        int nextServ = 0;
+        while (iterations != 0) {
+            nextServ = iterator.next();
+            if (nextServ == presentServ) iterator.next();
+            --iterations;
         }
+
         Board successor = new Board(board);
-        successor.move(randomReq,next);
-        llistaSuccessors.add(new Successor("Request " + randomReq + " a server " + next, successor));
+        successor.move(req,nextServ);
+        llistaSuccessors.add(new Successor("Move "+req+" "+nextServ, successor));
 
         return llistaSuccessors;
     }
