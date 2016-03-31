@@ -46,7 +46,7 @@ public class SuccessorFunction2 implements SuccessorFunction {
         Board board = (Board) estat;
         Servers servers = board.getServers();
         Requests requests = board.getRequests();
-        ArrayList<Integer> assigs = board.getAssignations(); // Req -> Server
+        ArrayList<Integer> assigs = board.getAssignations();
 
         int nreq = requests.size();
         for (int req1 = 0; req1 < nreq; ++req1) {
@@ -55,7 +55,7 @@ public class SuccessorFunction2 implements SuccessorFunction {
                 Set<Integer> replications2 = servers.fileLocations(requests.getRequest(req2)[1]);
                 if (replications1.contains(assigs.get(req2)) &&
                         replications2.contains(assigs.get(req1)) &&
-                        assigs.get(req1) != assigs.get(req2)) {
+                        (assigs.get(req1)).equals(assigs.get(req2))) {
                     Board successor = new Board(board);
                     successor.swap(req1, req2);
                     llistaSuccessors.add(new Successor("Swap "+req1+" "+req2,successor));
@@ -73,22 +73,22 @@ public class SuccessorFunction2 implements SuccessorFunction {
         Board board = (Board) estat;
         Servers servers = board.getServers();
         Requests requests = board.getRequests();
-        ArrayList<Integer> assigs = board.getAssignations(); // Req -> Server
+        ArrayList<Integer> assigs = board.getAssignations();
 
         int req1 = 0;
         ArrayList<Integer> candidates = new ArrayList<Integer>();
         boolean found = false;
         while (! found) {
-            req1 = (int) (seed.nextDouble() * board.getnRequests() + 0);
+            req1 = seed.nextInt(board.getnRequests());
             int serv1 = assigs.get(req1);
-
             Set<Integer> replications1 = servers.fileLocations(requests.getRequest(req1)[1]);
-            int iterations = (int) (seed.nextDouble() * replications1.size() + 1);
+
+            int iterations = seed.nextInt(replications1.size() - 1) + 1;
             Iterator<Integer> iterator = replications1.iterator();
             int serv2 = 0;
             while (iterations != 0) {
                 serv2 = iterator.next();
-                if (serv2 == assigs.get(req1)) iterator.next();
+                if (serv2 == serv1) iterator.next();
                 --iterations;
             }
 
@@ -101,7 +101,7 @@ public class SuccessorFunction2 implements SuccessorFunction {
 
             if (! candidates.isEmpty()) found = true;
         }
-        int req2 = candidates.get((int) (seed.nextDouble() * candidates.size() + 0));
+        int req2 = candidates.get(seed.nextInt(candidates.size()));
 
         Board successor = new Board(board);
         successor.swap(req1, req2);
