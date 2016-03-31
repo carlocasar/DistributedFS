@@ -1,1 +1,0 @@
-//SF con Simulated Annealin

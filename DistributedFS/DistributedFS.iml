@@ -12,7 +12,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../AIMA.jar!/" />
+          <root url="jar://$MODULE_DIR$/../practica1/AIMA.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -21,7 +21,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../DistribFileSystem.jar!/" />
+          <root url="jar://$MODULE_DIR$/../practica1/DistribFileSystem.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
