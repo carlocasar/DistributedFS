@@ -1,4 +1,4 @@
-
+/*
 import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
@@ -106,4 +106,4 @@ public class Demo {
         }
     }
 
-}
+}*/
