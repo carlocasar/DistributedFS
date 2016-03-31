@@ -96,7 +96,8 @@ public class Controller {
             switch (heuristic) {
                 case 'A': hf = new HeuristicFunction1A();
                     break;
-                default : hf = new HeuristicFunction1A();
+                case 'B':
+                default : hf = new HeuristicFunction1B();
             }
         }
         else {  // criterion == 2
@@ -125,4 +126,3 @@ public class Controller {
         }
     }
 }
-
