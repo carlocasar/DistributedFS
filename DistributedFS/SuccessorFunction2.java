@@ -50,12 +50,12 @@ public class SuccessorFunction2 implements SuccessorFunction {
 
         int nreq = requests.size();
         for (int req1 = 0; req1 < nreq; ++req1) {
+            int serv1 = assigs.get(req1);
             Set<Integer> replications1 = servers.fileLocations(requests.getRequest(req1)[1]);
             for (int req2 = req1+1; req2 < nreq; ++req2) {
+                int serv2 = assigs.get(req2);
                 Set<Integer> replications2 = servers.fileLocations(requests.getRequest(req2)[1]);
-                if (replications1.contains(assigs.get(req2)) &&
-                        replications2.contains(assigs.get(req1)) &&
-                        (assigs.get(req1)).equals(assigs.get(req2))) {
+                if (replications1.contains(serv2) && replications2.contains(serv1) && serv1 != serv2) {
                     Board successor = new Board(board);
                     successor.swap(req1, req2);
                     llistaSuccessors.add(new Successor("Swap "+req1+" "+req2,successor));
