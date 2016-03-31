@@ -26,6 +26,8 @@ public class Controller {
             System.out.println();                                   // lo guay seria pasarle el search agent
             //printActions(agent.getActions());                       // al main y que soltar la salida desde ahi.
             //printInstrumentation(agent.getInstrumentation());
+            System.out.println("Final state: ");
+            System.out.println(search.getGoalState());
             System.out.println("Execution time: " + (endTime - startTime) + " ms");
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,8 +52,10 @@ public class Controller {
             long endTime = System.currentTimeMillis();
 
             System.out.println();
-            printActions(agent.getActions());
-            printInstrumentation(agent.getInstrumentation());
+            //printActions(agent.getActions());
+            //printInstrumentation(agent.getInstrumentation());
+            System.out.println("Final state: ");
+            System.out.println(search.getGoalState());
             System.out.println("Execution time: " + (endTime - startTime) + " ms");
         } catch (Exception e) {
             e.printStackTrace();
