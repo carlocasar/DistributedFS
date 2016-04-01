@@ -1,10 +1,12 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Experiments {
 
     //static private Random seed;
-    private static int solIni = 3;
-    private static String operatorS = "Move+Swap";
+    private static final int solIni = 3;
+    private static final String operatorS = "Move+Swap";
 
     private static void experimentEsp()
     {
@@ -16,7 +18,7 @@ public class Experiments {
         int nServers = 50;
         int minReplications = 5;    // per file
         int criterion = 1;
-        char heuristic = 'A';
+        char heuristic = '1';
 
         Results r1;
         r1 = new Results();
@@ -38,18 +40,38 @@ public class Experiments {
         String operatorS;
         int criterion = 1;
         char heuristic = 'A';
-
+        ArrayList<Results> r1, r2, r3;
+        r1 = new ArrayList<>();
+        r2 = new ArrayList<>();
+        r3 = new ArrayList<>();
         for (int rep = 1; rep <= 10; ++rep) {
             seed = rep;
             for (int op = 1; op <= 3; ++op){
-                if (op == 1)operatorS = "Move";
-                else if (op == 2)operatorS = "Swap";
-                else operatorS = "Move+Swap";
-                Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
-                        solIni,operatorS,heuristic,criterion);
+                if (op == 1){
+                    operatorS = "Move";
+                    r1.add(Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
+                            solIni,operatorS,heuristic,criterion));
+                }
+                else if (op == 2){
+                    operatorS = "Swap";
+                    r2.add(Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
+                            solIni,operatorS,heuristic,criterion));
+                }
+                else {
+                    operatorS = "Move+Swap";
+                    r3.add(Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
+                            solIni,operatorS,heuristic,criterion));
+                }
 
             }
         }
+        File f1, f2, f3;
+        f1 = new File("exp11.txt");
+        f2 = new File("exp12.txt");
+        f3 = new File("exp13.txt");
+        escribir(r1,f1);
+        escribir(r2,f2);
+        escribir(r3,f3);
     }
 
     private static void experiment2(){
@@ -176,7 +198,7 @@ public class Experiments {
     {
         int experiment;
         try {
-            experiment = 0;
+            experiment = 1;
             // aquí falta el read del experiment
         } catch (RuntimeException e) {
             experiment = 10;
@@ -212,6 +234,23 @@ public class Experiments {
         // el write se hace dentro de cada experiment en su fichero particular.
     }
 
+    public static void escribir(ArrayList<Results> r, File f){
+        try {
+
+            FileWriter bw = new FileWriter(f);
+            PrintWriter wr = new PrintWriter(bw);
+            wr.append("SolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tExecTime\tNodes\n");
+            for (int i = 0; i < 10; ++i){
+                wr.append(r.get(i).toString());
+            }
+            wr.close();
+            bw.close();
+
+        }
+        catch (IOException e){}
+
+    }
+
     public static void escribir(Results r, File f){
         try {
 
@@ -221,6 +260,7 @@ public class Experiments {
             wr.append(r.toString());
             wr.close();
             bw.close();
+
         }
         catch (IOException e){}
 
