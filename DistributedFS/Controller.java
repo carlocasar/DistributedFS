@@ -39,6 +39,12 @@ public class Controller {
             //System.out.println();                                   // lo guay seria pasarle el search agent
             //printActions(agent.getActions());                       // al main y que soltar la salida desde ahi.
             //printInstrumentation(agent.getInstrumentation());
+            Properties p = agent.getInstrumentation();
+            Iterator it = p.keySet().iterator();
+            String key = (String) it.next();
+            String prop = p.getProperty(key);
+            results.setNodes(Integer.parseInt(prop));
+
             /*System.out.println("Final state: ");
             System.out.println(search.getGoalState());
             System.out.println("Execution time: " + (endTime - startTime) + " ms");*/

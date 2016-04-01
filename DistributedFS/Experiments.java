@@ -217,7 +217,7 @@ public class Experiments {
 
             FileWriter bw = new FileWriter(f);
             PrintWriter wr = new PrintWriter(bw);
-            wr.append("TotalTime\tExecutionTime\n");
+            wr.append("SolIniTime\tTotalTime\tExecutionTime\n");
             wr.append(r.toString());
             wr.close();
             bw.close();

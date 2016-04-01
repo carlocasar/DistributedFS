@@ -78,10 +78,7 @@ public class Board {
             assignations.add(i, server);
 
         }
-        initServerTimes();
         initMaterialized();
-        System.out.println(serverTimes);
-        //return assignations;
     }
 
     public void solIni2(){
@@ -109,7 +106,6 @@ public class Board {
             assignations.add(i, aux);
         }
         initMaterialized();
-        //return assignations;
     }
 
     public void solIni3(){
@@ -127,10 +123,7 @@ public class Board {
             Integer server = it.next();
             assignations.add(i, server);
         }
-        initServerTimes();
-        //System.out.println(serverTimes);
         initMaterialized();
-        //return assignations;
     }
 
     private void initMaterialized() {

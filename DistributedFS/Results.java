@@ -5,11 +5,14 @@ public class Results {
     private long searchTime;
     private int finalTransmission;
     private long totalTime;
+    private int nodes;
 
     public void setSolIni(long iniTime, long finTime, int iniTrans){
         solIniTime = finTime - iniTime;
         solIniTrans = iniTrans;
     }
+
+    public void setNodes(int n){nodes = n;}
 
     public void setSearchTime(long iniSearch, long finSearch){
         searchTime = finSearch - iniSearch;
@@ -24,6 +27,6 @@ public class Results {
     }
 
     public String toString() {
-        return finalTransmission + ("\t") + totalTime + ("\n");
+        return solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") + finalTransmission + ("\t") + totalTime + ("\t") + nodes + ("\n");
     }
 }
