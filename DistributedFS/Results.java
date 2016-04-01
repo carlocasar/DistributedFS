@@ -6,6 +6,8 @@ public class Results {
     private int finalTransmission;
     private long totalTime;
     private int nodes;
+    private int maxservtime;
+    public String titles = "SolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tMaxServTime\tExecTime\tNodes\n";
 
     public void setSolIni(long iniTime, long finTime, int iniTrans){
         solIniTime = finTime - iniTime;
@@ -26,7 +28,10 @@ public class Results {
         totalTime = finTime - iniTime;
     }
 
+    public void setMaxservtime(int maxtime) { maxservtime = maxtime; }
+
     public String toString() {
-        return solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") + finalTransmission + ("\t") + totalTime + ("\t") + nodes + ("\n");
+        return solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") +
+                finalTransmission + ("\t") + maxservtime + ("\t") + totalTime + ("\t") + nodes + ("\n");
     }
 }

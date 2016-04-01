@@ -36,7 +36,7 @@ public class Experiments {
         int nRequests = 5;          // max per user
         int nServers = 50;
         int minReplications = 5;    // per file
-        int solIni = 1;
+        int solIni = 4;
         String operatorS;
         int criterion = 1;
         char heuristic = 'A';
@@ -239,7 +239,7 @@ public class Experiments {
 
             FileWriter bw = new FileWriter(f);
             PrintWriter wr = new PrintWriter(bw);
-            wr.append("SolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tExecTime\tNodes\n");
+            wr.append(r.get(0).titles);
             for (int i = 0; i < 10; ++i){
                 wr.append(r.get(i).toString());
             }
@@ -256,7 +256,7 @@ public class Experiments {
 
             FileWriter bw = new FileWriter(f);
             PrintWriter wr = new PrintWriter(bw);
-            wr.append("SolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tExecTime\tNodes\n");
+            wr.append(r.titles);
             wr.append(r.toString());
             wr.close();
             bw.close();
