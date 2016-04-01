@@ -142,7 +142,6 @@ public class Board {
 
         }
         initMaterialized();
-        System.out.println(maxServerTime);
     }
 
     private void initMaterialized() {
