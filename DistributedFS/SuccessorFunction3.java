@@ -1,11 +1,11 @@
-/*
- * Conjunto de operadores: Mover + Intercambiar
- */
-
 import aima.search.framework.SuccessorFunction;
 
 import java.util.List;
 import java.util.Random;
+
+/*
+ * Conjunto de operadores: Mover + Intercambiar
+ */
 
 public class SuccessorFunction3 implements SuccessorFunction {
 

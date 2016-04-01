@@ -22,6 +22,8 @@ public class Experiments {
         r1 = new Results();
         r1 = Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
                 solIni,operatorS,heuristic,criterion);
+        /*r1 = Controller.Simmulated_Annealing(seed,nUsers,nRequests,nServers,minReplications,
+                solIni,operatorS,heuristic,criterion,200000,100,5,0.001);*/
         escribir(r1,f);
 
     }
@@ -32,7 +34,7 @@ public class Experiments {
         int nRequests = 5;          // max per user
         int nServers = 50;
         int minReplications = 5;    // per file
-        int solIni = 3;
+        int solIni = 1;
         String operatorS;
         int criterion = 1;
         char heuristic = 'A';
@@ -174,7 +176,7 @@ public class Experiments {
     {
         int experiment;
         try {
-            experiment = 1;
+            experiment = 0;
             // aquí falta el read del experiment
         } catch (RuntimeException e) {
             experiment = 10;
@@ -215,6 +217,7 @@ public class Experiments {
 
             FileWriter bw = new FileWriter(f);
             PrintWriter wr = new PrintWriter(bw);
+            wr.append("TotalTime\tExecutionTime\n");
             wr.append(r.toString());
             wr.close();
             bw.close();
@@ -222,4 +225,5 @@ public class Experiments {
         catch (IOException e){}
 
     }
+
 }

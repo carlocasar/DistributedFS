@@ -1,11 +1,11 @@
-/*
- * Representacion del estado, soluciones iniciales, operadores.
- */
-
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
 
 import java.util.*;
+
+/*
+ * Representacion del estado, soluciones iniciales, operadores.
+ */
 
 public class Board {
     private static int nServers;                // Number of servers

@@ -1,13 +1,13 @@
-/*
- * Conjunto de operadores: Intercambiar
- */
-
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
 import aima.search.framework.Successor;
 import aima.search.framework.SuccessorFunction;
 
 import java.util.*;
+
+/*
+ * Conjunto de operadores: Intercambiar
+ */
 
 public class SuccessorFunction2 implements SuccessorFunction {
 

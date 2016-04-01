@@ -1,8 +1,8 @@
+import aima.search.framework.HeuristicFunction;
+
 /*
  * (Transmission time) -> mean + standard deviation
  */
-
-import aima.search.framework.HeuristicFunction;
 
 public class HeuristicFunction2A implements HeuristicFunction
 {

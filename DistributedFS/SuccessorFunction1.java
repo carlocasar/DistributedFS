@@ -1,13 +1,13 @@
-/*
- * Conjunto de operadores: Mover
- */
-
 import IA.DistFS.Requests;
 import IA.DistFS.Servers;
 import aima.search.framework.Successor;
 import aima.search.framework.SuccessorFunction;
 
 import java.util.*;
+
+/*
+ * Conjunto de operadores: Mover
+ */
 
 public class SuccessorFunction1 implements SuccessorFunction {
 

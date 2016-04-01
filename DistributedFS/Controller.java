@@ -1,7 +1,3 @@
-/*
- * Receives parameters of a LocalSearch, executes it, returns instrumentation.
- */
-
 import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
@@ -9,6 +5,10 @@ import aima.search.informed.SimulatedAnnealingSearch;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+
+/*
+ * Receives parameters of a LocalSearch, executes it, returns instrumentation.
+ */
 
 public class Controller {
 
@@ -134,6 +134,8 @@ public class Controller {
         else {  // criterion == 2
             switch (heuristic) {
                 case 'A': hf = new HeuristicFunction2A();
+                    break;
+                case 'B': hf = new HeuristicFunction2B();
                     break;
                 default : hf = new HeuristicFunction2A();
             }
