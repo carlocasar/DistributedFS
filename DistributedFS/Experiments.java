@@ -1,29 +1,28 @@
+import java.io.*;
 
 public class Experiments {
 
     //static private Random seed;
+    private static int solIni = 3;
+    private static String operatorS = "Move+Swap";
 
     private static void experimentEsp()
     {
+        File f;
+        f = new File("experimentEsp.txt");
         int seed = 1234;
         int nUsers = 200;
         int nRequests = 5;          // max per user
         int nServers = 50;
         int minReplications = 5;    // per file
-        int solIni = 3;
-        String operatorS = "Move+Swap";
         int criterion = 1;
         char heuristic = 'A';
 
         Results r1;
         r1 = new Results();
-
-
         r1 = Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
                 solIni,operatorS,heuristic,criterion);
-
-
-        System.out.print(r1.toString());
+        escribir(r1,f);
 
     }
 
@@ -72,14 +71,30 @@ public class Experiments {
         }
     }
 
+    private static void experiment3(){
+        int seed;
+        int nUsers = 200;
+        int nRequests = 5;          // max per user
+        int nServers = 50;
+        int minReplications = 5;    // per file
+        int criterion = 1;
+        char heuristic = 'A';
+
+        for (int rep = 0; rep < 10; ++rep) {
+            seed = rep;
+
+            Controller.Simmulated_Annealing(seed, nUsers, nRequests, nServers, minReplications,
+                    solIni, operatorS, heuristic, criterion,0,0,0,0);
+
+        }
+    }
+
     private static void experiment4(){
         int seed = 1;
         int nUsers = 100;
         int nRequests = 5;          // max per user
         int nServers = 50;
         int minReplications = 5;    // per file
-        int solIni = 3;
-        String operatorS = "Move+Swap";
         int criterion = 1;
         char heuristic = 'A';
         for (int i = 1; i < 5; ++i) {
@@ -106,8 +121,8 @@ public class Experiments {
         int minReplications = 5;    // per file
         int solIni = 3;
         String operatorS = "Move+Swap";
-        int criterion = 1;
-        char heuristic = 'A';
+        int criterion;
+        char heuristic;
 
         for (int rep = 0; rep < 10; ++rep) {
             seed = rep;
@@ -133,8 +148,6 @@ public class Experiments {
         int nRequests = 5;          // max per user
         int nServers = 50;
         int minReplications = 5;    // per file
-        int solIni = 3;
-        String operatorS = "Move+Swap";
         int criterion;
         char heuristic;
 
@@ -161,7 +174,7 @@ public class Experiments {
     {
         int experiment;
         try {
-            experiment = 0;
+            experiment = 1;
             // aquí falta el read del experiment
         } catch (RuntimeException e) {
             experiment = 10;
@@ -177,7 +190,9 @@ public class Experiments {
             case 2:
                 experiment2();
                 break;
-            //case 3: experiment3(); break;
+            case 3:
+                experiment3();
+                break;
             case 4:
                 experiment4();
                 break;
@@ -193,5 +208,18 @@ public class Experiments {
         }
 
         // el write se hace dentro de cada experiment en su fichero particular.
+    }
+
+    public static void escribir(Results r, File f){
+        try {
+
+            FileWriter bw = new FileWriter(f);
+            PrintWriter wr = new PrintWriter(bw);
+            wr.append(r.toString());
+            wr.close();
+            bw.close();
+        }
+        catch (IOException e){}
+
     }
 }
