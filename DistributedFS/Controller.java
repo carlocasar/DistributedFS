@@ -121,18 +121,11 @@ public class Controller {
     private static SuccessorFunction operatorSet(String operatorS, String searchMethod)
     {
         SuccessorFunction sg;
-        if (operatorS.equals("Move")) sg = new SuccessorFunction1(searchMethod);
-        else if (operatorS.equals("Swap")) sg = new SuccessorFunction2(searchMethod);
-        else sg = new SuccessorFunction3(searchMethod);
-        /*switch (operatorS) {
-            case "Move": sg = new SuccessorFunction1(searchMethod);
-                break;
-            case "Swap": sg = new SuccessorFunction2(searchMethod);
-                break;
-            case "Move+Swap":
-            default: sg = new SuccessorFunction3(searchMethod);
-                break;
-        }*/
+        operatorS = operatorS.toUpperCase().replaceAll(" ","");
+        if (operatorS.equals("MOVE+SWAP")) sg = new SuccessorFunction3(searchMethod);
+        else if (operatorS.equals("MOVE")) sg = new SuccessorFunction1(searchMethod);
+        else if (operatorS.equals("SWAP")) sg = new SuccessorFunction2(searchMethod);
+        else throw new RuntimeException("Inexistent operator set.") ;
         return sg;
     }
 
