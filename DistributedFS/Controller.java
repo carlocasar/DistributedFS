@@ -82,6 +82,12 @@ public class Controller {
             results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
             results.setTotalTime(iniTime,endTime);
 
+            Properties p = agent.getInstrumentation();
+            Iterator it = p.keySet().iterator();
+            String key = (String) it.next();
+            String prop = p.getProperty(key);
+            results.setNodes(Integer.parseInt(prop));
+
             /*System.out.println();
             //printActions(agent.getActions());
             //printInstrumentation(agent.getInstrumentation());
