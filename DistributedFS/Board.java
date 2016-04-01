@@ -79,7 +79,7 @@ public class Board {
 
         }
         initServerTimes();
-        reloadMaxTime();
+        initMaterialized();
         System.out.println(serverTimes);
         //return assignations;
     }
@@ -108,6 +108,7 @@ public class Board {
             numReqServ.set(aux, aux + 1);
             assignations.add(i, aux);
         }
+        initMaterialized();
         //return assignations;
     }
 
@@ -127,8 +128,8 @@ public class Board {
             assignations.add(i, server);
         }
         initServerTimes();
-        reloadMaxTime();
-        System.out.println(serverTimes);
+        //System.out.println(serverTimes);
+        initMaterialized();
         //return assignations;
     }
 

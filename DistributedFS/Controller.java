@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class Controller {
 
-    public static void Hill_Climbing(int seed, int nUsers, int nRequests, int nServers, int minReplications,
+    public static Results Hill_Climbing(int seed, int nUsers, int nRequests, int nServers, int minReplications,
                                      int solIni, String operatorS, char heuristic, int criterion)
     {
         Results results = new Results();
@@ -36,23 +36,31 @@ public class Controller {
             results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
             results.setTotalTime(iniTime,endTime);
 
-            System.out.println();                                   // lo guay seria pasarle el search agent
+            //System.out.println();                                   // lo guay seria pasarle el search agent
             //printActions(agent.getActions());                       // al main y que soltar la salida desde ahi.
             //printInstrumentation(agent.getInstrumentation());
-            System.out.println("Final state: ");
+            /*System.out.println("Final state: ");
             System.out.println(search.getGoalState());
-            System.out.println("Execution time: " + (endTime - startTime) + " ms");
+            System.out.println("Execution time: " + (endTime - startTime) + " ms");*/
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return results;
     }
 
-    public static void Simmulated_Annealing(int seed, int nUsers, int nRequests, int nServers, int minReplications,
+    public static Results Simmulated_Annealing(int seed, int nUsers, int nRequests, int nServers, int minReplications,
                                             int solIni, String operatorS, char heuristic, int criterion,
                                             int steps, int stiter, int k, double lamb)
     {
+        Results results = new Results();
         Board initState = new Board(nUsers,nRequests,nServers,minReplications,seed,criterion);
+        long iniTime = System.currentTimeMillis();
         initialSolution(initState,solIni);
+        long finIniTime = System.currentTimeMillis();
+
+        results.setSolIni(iniTime, finIniTime, initState.getTotalTransmissionTime());
+
         SuccessorFunction successorGen = operatorSet(operatorS,"Simulated Annealing");
         HeuristicFunction heuristicF = heuristic(criterion,heuristic);
 
@@ -64,15 +72,21 @@ public class Controller {
             SearchAgent agent = new SearchAgent(problem, search);
             long endTime = System.currentTimeMillis();
 
-            System.out.println();
+            results.setSearchTime(startTime, endTime);
+            results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
+            results.setTotalTime(iniTime,endTime);
+
+            /*System.out.println();
             //printActions(agent.getActions());
             //printInstrumentation(agent.getInstrumentation());
             System.out.println("Final state: ");
             System.out.println(search.getGoalState());
-            System.out.println("Execution time: " + (endTime - startTime) + " ms");
+            System.out.println("Execution time: " + (endTime - startTime) + " ms");*/
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return results;
     }
 
     private static void initialSolution(Board state, int initialSolution)

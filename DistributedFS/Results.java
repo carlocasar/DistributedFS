@@ -6,20 +6,24 @@ public class Results {
     private int finalTransmission;
     private long totalTime;
 
-    void setSolIni(long iniTime, long finTime, int iniTrans){
+    public void setSolIni(long iniTime, long finTime, int iniTrans){
         solIniTime = finTime - iniTime;
         solIniTrans = iniTrans;
     }
 
-    void setSearchTime(long iniSearch, long finSearch){
+    public void setSearchTime(long iniSearch, long finSearch){
         searchTime = finSearch - iniSearch;
     }
 
-    void setFinalTransmission(int transmission){
+    public void setFinalTransmission(int transmission){
         finalTransmission = transmission;
     }
 
-    void setTotalTime(long iniTime, long finTime){
+    public void setTotalTime(long iniTime, long finTime){
         totalTime = finTime - iniTime;
+    }
+
+    public String toString() {
+        return finalTransmission + ("\t") + totalTime + ("\n");
     }
 }

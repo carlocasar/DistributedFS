@@ -15,14 +15,15 @@ public class Experiments {
         int criterion = 1;
         char heuristic = 'A';
 
-        Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
+        Results r1;
+        r1 = new Results();
+
+
+        r1 = Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
                 solIni,operatorS,heuristic,criterion);
 
-        Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
-                solIni,operatorS,heuristic,criterion);
 
-        Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
-                solIni,operatorS,heuristic,criterion);
+        System.out.print(r1.toString());
 
     }
 
@@ -160,7 +161,7 @@ public class Experiments {
     {
         int experiment;
         try {
-            experiment = 1;
+            experiment = 0;
             // aquí falta el read del experiment
         } catch (RuntimeException e) {
             experiment = 10;
