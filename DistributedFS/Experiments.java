@@ -8,6 +8,8 @@ public class Experiments {
     private static final int solIni = 3;
     private static final String operatorS = "Move+Swap";
 
+    int putaBIDA;
+
     private static void experimentEsp()
     {
         File f;
