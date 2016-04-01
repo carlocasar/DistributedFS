@@ -126,6 +126,25 @@ public class Board {
         initMaterialized();
     }
 
+    public void solIni4(){
+        assignations = new ArrayList<Integer>(requests.size());
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < requests.size(); ++i) {
+            int fileReq = requests.getRequest(i)[1];
+            Set<Integer> replications = servers.fileLocations(fileReq);
+            int iterations = random.nextInt(replications.size());
+            Iterator<Integer> server = replications.iterator();
+            while (iterations > 0) {
+                server.next();
+                --iterations;
+            }
+            assignations.add(i, server.next());
+
+        }
+        initMaterialized();
+        System.out.println(maxServerTime);
+    }
+
     private void initMaterialized() {
         initServerTimes();
         if (criterion == 1) reloadMaxTime();

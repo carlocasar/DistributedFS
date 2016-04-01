@@ -35,6 +35,7 @@ public class Controller {
             results.setSearchTime(startTime, endTime);
             results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
             results.setTotalTime(iniTime,endTime);
+            results.setMaxservtime(((Board) search.getGoalState()).getMaxServerTime());
 
             //System.out.println();                                   // lo guay seria pasarle el search agent
             //printActions(agent.getActions());                       // al main y que soltar la salida desde ahi.
@@ -81,6 +82,7 @@ public class Controller {
             results.setSearchTime(startTime, endTime);
             results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
             results.setTotalTime(iniTime,endTime);
+            results.setMaxservtime(((Board) search.getGoalState()).getMaxServerTime());
 
             Properties p = agent.getInstrumentation();
             Iterator it = p.keySet().iterator();
@@ -108,8 +110,10 @@ public class Controller {
                 break;
             case 2 : state.solIni2();
                 break;
-            case 3 :
-            default: state.solIni3();
+            case 3 : state.solIni3();
+                break;
+            case 4 :
+            default: state.solIni4();
                 break;
         }
     }
