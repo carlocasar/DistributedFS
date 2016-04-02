@@ -22,7 +22,7 @@ public class Experiments {
         for (int repetition = 1; repetition <= 3; ++repetition)
             results.add(Controller.Hill_Climbing(seed, 
                     usualNusers, usualNrequests, usualNservers, usualMinReplications,
-                    settledSolIni, settledOperatorS, usualHeuristicTwo, 1));
+                    settledSolIni, settledOperatorS, usualHeuristicOne, 2));
         try {
             File file = new File("experimentSp.txt");
             //file.createNewFile();
@@ -200,7 +200,7 @@ public class Experiments {
         Results results;
         results = Controller.Hill_Climbing(seed,
         usualNusers, usualNrequests, usualNservers, usualMinReplications,
-        settledSolIni, settledOperatorS, usualHeuristicTwo, 1);
+        settledSolIni, settledOperatorS, usualHeuristicTwo, 2);
         System.out.println(results.compareData());
     }
 
