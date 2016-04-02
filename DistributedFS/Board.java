@@ -144,7 +144,7 @@ public class Board {
         initMaterialized();
     }
 
-    private void initMaterialized() {
+    public void initMaterialized() {
         initServerTimes();
         if (criterion == 1) reloadMaxTime();
         else if (criterion == 2) initTotalSquaredTime();

@@ -22,9 +22,9 @@ public class Experiments {
         for (int repetition = 1; repetition <= 3; ++repetition)
             results.add(Controller.Hill_Climbing(seed, 
                     usualNusers, usualNrequests, usualNservers, usualMinReplications,
-                    settledSolIni, settledOperatorS, usualHeuristicOne, 1));
+                    settledSolIni, settledOperatorS, usualHeuristicTwo, 1));
         try {
-            File file = new File("data/experimentSp.txt");
+            File file = new File("experimentSp.txt");
             //file.createNewFile();
             dumpResults("\nSpecial Experiment for " +
                     "solIni #4 and Move & Swap\n",results,file);
@@ -196,7 +196,12 @@ public class Experiments {
 
     private static void debugging()     // Program here what you want to debug.
     {
-
+        int seed = 1234;
+        Results results;
+        results = Controller.Hill_Climbing(seed,
+        usualNusers, usualNrequests, usualNservers, usualMinReplications,
+        settledSolIni, settledOperatorS, usualHeuristicTwo, 1);
+        System.out.println(results.compareData());
     }
 
     public static void main(String[] args)

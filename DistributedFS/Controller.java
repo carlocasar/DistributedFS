@@ -21,6 +21,7 @@ public class Controller {
         initialSolution(initState,solIni);
         long finIniTime = System.currentTimeMillis();
 
+        results.setInit(initState);
         results.setSolIni(iniTime, finIniTime, initState.getTotalTransmissionTime());
         
         SuccessorFunction successorGen = operatorSet(operatorS,"Hill Climbing");
@@ -36,6 +37,7 @@ public class Controller {
             results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
             results.setTotalTime(iniTime,endTime);
             results.setMaxservtime(((Board) search.getGoalState()).getMaxServerTime());
+            results.setEnd((Board) search.getGoalState());
 
             //System.out.println();                                   // lo guay seria pasarle el search agent
             //printActions(agent.getActions());                       // al main y que soltar la salida desde ahi.
