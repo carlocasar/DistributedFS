@@ -19,9 +19,10 @@ public class Board {
 
     private ArrayList<Integer> serverTimes;     // serverTimes : server -> server transmission time.
     private int totalTransmissionTime;          // sum of server times.
-    private int totalSquareTime;                // sum of server times^2, needed for std deviation.
+    private long totalSquareTime;                // sum of server times^2, needed for std deviation.
     private int maxServerTime;                  // maximum of server times.
     private int maxTimeServers;                 // number of servers with maxServerTime.
+    private int difference;
 
 
     public Board(int users, int requs, int servs, int repls, int seed, int crit)
@@ -40,7 +41,8 @@ public class Board {
 
         serverTimes = new ArrayList<Integer>();
         for (int i = 0; i < nServers; ++i) serverTimes.add(0);
-        totalTransmissionTime = totalSquareTime = maxServerTime = maxTimeServers = 0;
+        totalTransmissionTime =  maxServerTime = maxTimeServers = difference = 0;
+        totalSquareTime = 0;
     }
 
     public Board(Board original)
@@ -57,6 +59,7 @@ public class Board {
         totalTransmissionTime = original.getTotalTransmissionTime();
         totalSquareTime = original.getTotalSquareTime();
         maxTimeServers = original.getMaxTimeServers();
+        difference = original.getDifference();
     }
 
     /*
@@ -147,7 +150,19 @@ public class Board {
     public void initMaterialized() {
         initServerTimes();
         if (criterion == 1) reloadMaxTime();
-        else if (criterion == 2) initTotalSquaredTime();
+        //else if (criterion == 2) initTotalSquaredTime();
+        else if (criterion == 2) initDifference();
+    }
+
+    public void initDifference(){
+        int diff = 0;
+        int mean = totalTransmissionTime/nServers;
+        for (int i = 0; i < nServers; ++i){
+            int time = serverTimes.get(i);
+            if (time < mean) diff += mean - time;
+            else diff += time - mean;
+        }
+        difference = diff;
     }
 
     private void initServerTimes() {
@@ -252,7 +267,7 @@ public class Board {
         }
     }
 
-    private void move2(int request, int newServer)
+    /*private void move2(int request, int newServer)
     {
         int user = requests.getRequest(request)[0];
         int oldServer = assignations.get(request);
@@ -300,6 +315,53 @@ public class Board {
         totalSquareTime += (time*time);
         totalTransmissionTime += time;
         serverTimes.set(serv2,time);
+    }*/
+
+    private void move2(int request, int newServer)
+    {
+        int user = requests.getRequest(request)[0];
+        int oldServer = assignations.get(request);
+
+        int time1 = serverTimes.get(oldServer);
+        int time2 = time1 - servers.tranmissionTime(oldServer, user);
+        totalTransmissionTime -= servers.tranmissionTime(oldServer, user);
+        serverTimes.set(oldServer, time2);
+
+        assignations.set(request, newServer);
+
+        time2 = serverTimes.get(newServer);
+        time2 += servers.tranmissionTime(newServer, user);
+        totalTransmissionTime += servers.tranmissionTime(newServer, user);
+        serverTimes.set(newServer, time2);
+
+        initDifference();
+    }
+
+    private void swap2(int req1, int req2)
+    {
+        int user1 = requests.getRequest(req1)[0];
+        int user2 = requests.getRequest(req2)[0];
+        int serv1 = assignations.get(req1);
+        int serv2 = assignations.get(req2);
+
+        int time1 = serverTimes.get(serv1);
+        totalTransmissionTime -= time1;
+        int time2 = time1 - servers.tranmissionTime(serv1, user1);
+        assignations.set(req2, serv1);
+        time2 += servers.tranmissionTime(serv1, user2);
+        totalTransmissionTime += time2;
+        serverTimes.set(serv1, time2);
+        processMaxTimes(time1, time2);
+
+        time1 = serverTimes.get(serv2);
+        totalTransmissionTime -= time1;
+        time2 = time1 - servers.tranmissionTime(serv2, user2);
+        assignations.set(req1, serv2);
+        time2 += servers.tranmissionTime(serv2, user1);
+        totalTransmissionTime += time2;
+        serverTimes.set(serv2, time2);
+
+        initDifference();
     }
 
     public Servers getServers() {
@@ -334,7 +396,7 @@ public class Board {
         return totalTransmissionTime;
     }
 
-    public int getTotalSquareTime() {
+    public long getTotalSquareTime() {
         return totalSquareTime;
     }
 
@@ -348,6 +410,8 @@ public class Board {
 
     public int getMaxTimeServers() {return maxTimeServers;    }
 
+    public int getDifference() { return difference; }
+
     public String toString() {
         // retorna estat explicat en un string
         String s = "";
@@ -360,4 +424,6 @@ public class Board {
         s = s.concat("Max server time = " + String.valueOf(maxServerTime) + " Total time = " + String.valueOf(totalTransmissionTime));
         return s;
     }
+
+
 }

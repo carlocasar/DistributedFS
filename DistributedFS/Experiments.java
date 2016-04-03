@@ -199,8 +199,8 @@ public class Experiments {
         int seed = 1234;
         Results results;
         results = Controller.Hill_Climbing(seed,
-        usualNusers, usualNrequests, usualNservers, usualMinReplications,
-        settledSolIni, settledOperatorS, usualHeuristicTwo, 2);
+        2, 1, 3, 1,
+        settledSolIni, settledOperatorS, usualHeuristicOne, 2);
         System.out.println(results.compareData());
     }
 

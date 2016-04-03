@@ -11,10 +11,12 @@ public class Results {
     private int nodes;
     private int maxservtime;
     private int numServs;
-    private int totalsquare;
+    private long totalsquare;
+    private int difference;
     Board init;
     Board end;
     private ArrayList<Integer> servtimes;
+    private ArrayList<Integer> assig;
 
     public static final String
             headers = "SolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tMaxServTime\tExecTime\tNodes";
@@ -52,7 +54,11 @@ public class Results {
 
     public void setServerTimes(ArrayList<Integer> v){ servtimes = v; }
 
-    public void setTotalsquare(int n) {totalsquare = n;}
+    public void setTotalsquare(long n) {totalsquare = n;}
+
+    public void setDiff(int diff) { difference = diff; }
+
+    public void setAssig(ArrayList<Integer> v) { assig = v; }
 
     public String toString() {
         return solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") +
@@ -60,7 +66,8 @@ public class Results {
     }
 
     public String compareData(){
-        int x, y, a, b;
+        int x, y, a;
+        int b;
         int crit = init.getCriterion();
         init.initMaterialized();
         end.initMaterialized();
@@ -70,7 +77,7 @@ public class Results {
         if (crit == 1){
             b = end.getMaxServerTime()/2;
         }
-        else b = end.getTotalSquareTime();
+        else b = end.getDifference();
         String s = "Are results equal?\n";
         s = s.concat("solIniTrans: ");
         s = s.concat(String.valueOf(x == solIniTrans) + ("\n"));
@@ -88,15 +95,25 @@ public class Results {
         s = s.concat(String.valueOf(equal) + ("\n"));
         s = s.concat(String.valueOf(end.getServerTimes()) + ("\n"));
         s = s.concat(String.valueOf(servtimes) + ("\n"));
+        s = s.concat(String.valueOf(end.getAssignations()) + ("\n"));
+        s = s.concat(String.valueOf(assig) + ("\n"));
         if (crit == 1) {
             s = s.concat("Max server time: ");
             s = s.concat(String.valueOf(maxservtime == b) + ("\n"));
         }
-        else {
+        /*else {
             s = s.concat("Total square time: ");
             s = s.concat(String.valueOf(totalsquare == b) + ("\n"));
             s = s.concat(totalsquare + " " + b);
+        }*/
+        else {
+            s = s.concat("Total difference: ");
+            s = s.concat(String.valueOf(difference == b) + ("\n"));
+            s = s.concat(difference + " " + b);
         }
         return s;
     }
+
+
+
 }

@@ -42,8 +42,10 @@ public class Controller {
                 results.setMaxservtime(((Board) search.getGoalState()).getMaxServerTime());
             }
             else {
-                results.setTotalsquare(((Board) search.getGoalState()).getTotalSquareTime());
+                //results.setTotalsquare(((Board) search.getGoalState()).getTotalSquareTime());
+                results.setDiff(((Board) search.getGoalState()).getDifference());
             }
+            results.setAssig(((Board) search.getGoalState()).getAssignations());
             results.setEnd((Board) search.getGoalState());
 
             //System.out.println();                                   // lo guay seria pasarle el search agent
