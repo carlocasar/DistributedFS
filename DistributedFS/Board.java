@@ -19,7 +19,7 @@ public class Board {
 
     private ArrayList<Integer> serverTimes;     // serverTimes : server -> server transmission time.
     private int totalTransmissionTime;          // sum of server times.
-    private int totalSquareTime;                // sum of server times^2, needed for std deviation.
+    private long totalSquareTime;                // sum of server times^2, needed for std deviation.
     private int maxServerTime;                  // maximum of server times.
     private int maxTimeServers;                 // number of servers with maxServerTime.
 
@@ -40,7 +40,8 @@ public class Board {
 
         serverTimes = new ArrayList<Integer>();
         for (int i = 0; i < nServers; ++i) serverTimes.add(0);
-        totalTransmissionTime = totalSquareTime = maxServerTime = maxTimeServers = 0;
+        totalTransmissionTime  = maxServerTime = maxTimeServers = 0;
+        totalSquareTime = 0;
     }
 
     public Board(Board original)
@@ -334,7 +335,7 @@ public class Board {
         return totalTransmissionTime;
     }
 
-    public int getTotalSquareTime() {
+    public long getTotalSquareTime() {
         return totalSquareTime;
     }
 

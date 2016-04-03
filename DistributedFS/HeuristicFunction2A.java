@@ -11,7 +11,7 @@ public class HeuristicFunction2A implements HeuristicFunction
         Board board = (Board) o;
         int nServers = board.getnServers();
         int totalTransmissionTime = board.getTotalTransmissionTime();
-        int totalSquareTime = board.getTotalSquareTime();
+        long totalSquareTime = board.getTotalSquareTime();
 
         double mean = totalTransmissionTime / (double)nServers;
         double variance = (totalSquareTime / (double)nServers) - (mean*mean);

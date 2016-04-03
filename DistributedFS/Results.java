@@ -11,7 +11,7 @@ public class Results {
     private int nodes;
     private int maxservtime;
     private int numServs;
-    private int totalsquare;
+    private long totalsquare;
     Board init;
     Board end;
     private ArrayList<Integer> servtimes;
@@ -52,7 +52,7 @@ public class Results {
 
     public void setServerTimes(ArrayList<Integer> v){ servtimes = v; }
 
-    public void setTotalsquare(int n) {totalsquare = n;}
+    public void setTotalsquare(long n) {totalsquare = n;}
 
     public String toString() {
         return solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") +
@@ -60,7 +60,8 @@ public class Results {
     }
 
     public String compareData(){
-        int x, y, a, b;
+        int x, y, a;
+        long b;
         int crit = init.getCriterion();
         init.initMaterialized();
         end.initMaterialized();
