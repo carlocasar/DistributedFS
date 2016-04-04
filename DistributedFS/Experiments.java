@@ -13,21 +13,31 @@ public class Experiments {
     static final char usualHeuristicOne = 'B';
     static final char usualHeuristicTwo = 'A';
     static final String settledOperatorS = "Move+Swap";
-    static final int settledSolIni = 4;
+    static final int settledSolIni = 3;
+
 
     private static void experimentSp()      // Seed 1234
     {
         int seed = 1234;
-        ArrayList<Results> results = new ArrayList<>();
+        ArrayList<Results> resultsA = new ArrayList<>();
+        ArrayList<Results> resultsB = new ArrayList<>();
         for (int repetition = 1; repetition <= 3; ++repetition)
-            results.add(Controller.Hill_Climbing(seed, 
+            resultsB.add(Controller.Hill_Climbing(seed,
                     usualNusers, usualNrequests, usualNservers, usualMinReplications,
-                    settledSolIni, settledOperatorS, usualHeuristicOne, 2));
+                    settledSolIni, settledOperatorS, usualHeuristicOne, 1));
+        for (int repetition = 1; repetition <= 3; ++repetition)
+            resultsA.add(Controller.Hill_Climbing(seed,
+                    usualNusers, usualNrequests, usualNservers, usualMinReplications,
+                    settledSolIni, settledOperatorS, 'A', 1));
+
         try {
-            File file = new File("experimentSp.txt");
-            //file.createNewFile();
+            File file = new File("experimentSpB.txt");
             dumpResults("\nSpecial Experiment for " +
-                    "solIni #4 and Move & Swap\n",results,file);
+                    "solIni #4, Move & Swap, heuristic 1B\n",resultsB,file);
+
+            file = new File("experimentSpA.txt");
+            dumpResults("\nSpecial Experiment for " +
+                    "solIni #4, Move & Swap, heuristic 1A\n",resultsA,file);
         } catch (Exception e) {
             e.printStackTrace();
         }
