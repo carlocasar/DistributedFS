@@ -162,8 +162,12 @@ public class Experiments {
     {
         ArrayList<Results> r = new ArrayList<>();
 
-        // See experiment 1 (all the parameters of the search are the same with operator Both)
-        // Falta criterion 2
+        int seed;
+        for (int repetition = 1; repetition <= 10; ++repetition) {
+            seed = repetition;
+            r.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
+                    usualNservers, usualMinReplications, settledSolIni, settledOperatorS, usualHeuristicTwo, 2));
+        }
 
         try {
             File file = new File("data/experiment5.txt");
@@ -180,8 +184,9 @@ public class Experiments {
         ArrayList<Results> r1 = new ArrayList<>();
         ArrayList<Results> r2 = new ArrayList<>();
 
+        int seed;
         for (int repetition = 1; repetition <= 10; ++repetition) {
-            int seed = repetition;
+            seed = repetition;
             r1.add(Controller.Simmulated_Annealing(seed, usualNusers, usualNrequests,
                     usualNservers, usualMinReplications, settledSolIni, settledOperatorS,
                     usualHeuristicOne, 1, settledSteps, settledStiter, settledK, settledLamb));
@@ -232,9 +237,13 @@ public class Experiments {
     {
         int seed = 1234;
         Results results;
-        results = Controller.Hill_Climbing(4321,
+        results = Controller.Hill_Climbing(seed,
         usualNusers, usualNrequests, usualNservers, usualMinReplications,
         settledSolIni, settledOperatorS, usualHeuristicOne, 1);
+        System.out.println(results.compareData());
+        results = Controller.Hill_Climbing(seed,
+                usualNusers, usualNrequests, usualNservers, usualMinReplications,
+                settledSolIni, settledOperatorS, usualHeuristicTwo, 2);
         System.out.println(results.compareData());
     }
 

@@ -11,14 +11,13 @@ public class Results {
     private int nodes;
     private int maxservtime;
     private int numServs;
-    private long totalsquare;
     Board init;
     Board end;
     private ArrayList<Integer> servtimes;
     private ArrayList<Integer> assig;
 
     public static final String
-            headers = "SolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tMaxServTime\tExecTime\tNodes";
+            headers = "SolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tMaxServ/mean\tExecTime\tNodes";
 
     public void setSolIni(long iniTime, long finTime, int iniTrans){
         solIniTime = finTime - iniTime;
@@ -53,13 +52,14 @@ public class Results {
 
     public void setServerTimes(ArrayList<Integer> v){ servtimes = v; }
 
-    public void setTotalsquare(long n) {totalsquare = n;}
-
     public void setAssig(ArrayList<Integer> v) { assig = v; }
 
     public String toString() {
-        return solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") +
-                finalTransmission + ("\t") + maxservtime + ("\t") + totalTime + ("\t") + nodes;
+        String s = solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") + finalTransmission + ("\t");
+        if (end.getCriterion() == 1) s = s.concat(String.valueOf(maxservtime));
+        else s = s.concat(String.valueOf(totalTime/numServs));
+        s = s.concat("\t") + totalTime + ("\t") + nodes;
+        return s;
     }
 
     public String compareData(){
@@ -74,7 +74,7 @@ public class Results {
         if (crit == 1){
             b = end.getMaxServerTime()/2;
         }
-        else b = end.getTotalSquareTime();
+        else b = end.getTotalTransmissionTime()/end.getnServers();
         String s = "Are results equal?\n";
         s = s.concat("solIniTrans: ");
         s = s.concat(String.valueOf(x == solIniTrans) + ("\n"));
@@ -83,25 +83,21 @@ public class Results {
         s = s.concat(end.getTotalTransmissionTime() + ("\n"));
         s = s.concat("Num servers with max time: ");
         s = s.concat(String.valueOf(numServs == a) + ("\n"));
-        int n = end.getnServers();
+        int n = end.getAssignations().size();
         Boolean equal = true;
-        for (int i = 0; i < n; ++i){
-            if (equal) equal = Objects.equals(end.getServerTimes().get(i), servtimes.get(i));
+        for (int i = 0; i < n && equal; ++i){
+            equal = Objects.equals(end.getAssignations().get(i), assig.get(i));
         }
         s = s.concat("Assignations: ");
         s = s.concat(String.valueOf(equal) + ("\n"));
-        s = s.concat(String.valueOf(end.getServerTimes()) + ("\n"));
         s = s.concat(String.valueOf(servtimes) + ("\n"));
         s = s.concat(String.valueOf(end.getAssignations()) + ("\n"));
-        s = s.concat(String.valueOf(assig) + ("\n"));
         if (crit == 1) {
             s = s.concat("Max server time: ");
             s = s.concat(String.valueOf(maxservtime == b) + ("\n"));
         }
         else {
-            s = s.concat("Total square time: ");
-            s = s.concat(String.valueOf(totalsquare == b) + ("\n"));
-            s = s.concat(totalsquare + " " + b);
+            s = s.concat("Mean: " + b + ("\n"));
         }
         return s;
     }
