@@ -15,29 +15,23 @@ public class Experiments {
     static final String settledOperatorS = "Move+Swap";
     static final int settledSolIni = 3;
 
+    static final int settledSteps = 0;
+    static final int settledStiter = 0;
+    static final int settledK = 0;
+    static final double settledLamb = 0;
 
     private static void experimentSp()      // Seed 1234
     {
         int seed = 1234;
-        ArrayList<Results> resultsA = new ArrayList<>();
-        ArrayList<Results> resultsB = new ArrayList<>();
+        ArrayList<Results> results = new ArrayList<>();
         for (int repetition = 1; repetition <= 3; ++repetition)
-            resultsB.add(Controller.Hill_Climbing(seed,
+            results.add(Controller.Hill_Climbing(seed,
                     usualNusers, usualNrequests, usualNservers, usualMinReplications,
                     settledSolIni, settledOperatorS, usualHeuristicOne, 1));
-        for (int repetition = 1; repetition <= 3; ++repetition)
-            resultsA.add(Controller.Hill_Climbing(seed,
-                    usualNusers, usualNrequests, usualNservers, usualMinReplications,
-                    settledSolIni, settledOperatorS, 'A', 1));
-
         try {
-            File file = new File("experimentSpB.txt");
-            dumpResults("\nSpecial Experiment for " +
-                    "solIni #4, Move & Swap, heuristic 1B\n",resultsB,file);
-
-            file = new File("experimentSpA.txt");
-            dumpResults("\nSpecial Experiment for " +
-                    "solIni #4, Move & Swap, heuristic 1A\n",resultsA,file);
+            File file = new File("data/experimentSp.txt");
+            dumpResults("Special Experiment for " +
+                    "solIni #4, Move & Swap, heuristic 1B",results,file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,19 +49,20 @@ public class Experiments {
         for (int repetition = 1; repetition <= 10; ++repetition) {
             int seed = repetition;
             rMove.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
-                    usualNservers, usualMinReplications, settledSolIni, move, usualHeuristicOne, 1));
+                    usualNservers, usualMinReplications, 3, move, usualHeuristicOne, 1));
             rSwap.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
-                    usualNservers, usualMinReplications, settledSolIni, swap, usualHeuristicOne, 1));
+                    usualNservers, usualMinReplications, 3, swap, usualHeuristicOne, 1));
             rBoth.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
-                    usualNservers, usualMinReplications, settledSolIni, both, usualHeuristicOne, 1));
+                    usualNservers, usualMinReplications, 3, both, usualHeuristicOne, 1));
         }
 
         try {
             File file = new File("data/experiment1.txt");
+            file.delete();
             file.createNewFile();
-            dumpResults("\nMove\n",rMove,file);
-            dumpResults("\nSwap\n",rSwap,file);
-            dumpResults("\nMove & Swap\n",rBoth,file);
+            dumpResults("Move",rMove,file);
+            dumpResults("Swap",rSwap,file);
+            dumpResults("Move & Swap",rBoth,file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +75,7 @@ public class Experiments {
         ArrayList<Results> rSI3 = new ArrayList<>();
         ArrayList<Results> rSI4 = new ArrayList<>();
 
-        for (int repetition = 0; repetition < 10; ++repetition) {
+        for (int repetition = 1; repetition <= 10; ++repetition) {
             int seed = repetition;
             for (int solIni = 1; solIni <= 4; ++solIni) {
                 rSI1.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
@@ -96,17 +91,19 @@ public class Experiments {
 
         try {
             File file = new File("data/experiment2.txt");
+            file.delete();
             file.createNewFile();
-            dumpResults("\nsolIni #1\n",rSI1,file);
-            dumpResults("\nsolIni #2\n",rSI2,file);
-            dumpResults("\nsolIni #3\n",rSI3,file);
-            dumpResults("\nsolIni #4\n",rSI4,file);
+            dumpResults("solIni #1",rSI1,file);
+            dumpResults("solIni #2",rSI2,file);
+            dumpResults("solIni #3",rSI3,file);
+            dumpResults("solIni #4",rSI4,file);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static void experiment3(){
+    private static void experiment3()
+    {
         int seed;
         int nUsers = 200;
         int nRequests = 5;          // max per user
@@ -124,56 +121,83 @@ public class Experiments {
         }
     }
 
-    private static void experiment4(){
-        int seed = 1;
-        int nUsers = 100;
-        int nRequests = 5;          // max per user
-        int nServers = 50;
-        int minReplications = 5;    // per file
-        int criterion = 1;
-        char heuristic = 'A';
-        for (int i = 1; i < 5; ++i) {
-            seed = i;
-            for (int incU = 0; incU < 10; ++incU) {     //incrementar hasta ver tendencia
-                nUsers += 100;
-                Controller.Hill_Climbing(seed, nUsers, nRequests, nServers, minReplications,
-                        settledSolIni, settledOperatorS, heuristic, criterion);
+    private static void experiment4()       // Experimenting with nUsers & nServers
+    {
+        ArrayList<Results> results = new ArrayList<>();
+        for (int nUsers = 100; nUsers <= 1000; nUsers += 100)       //incrementar hasta ver tendencia
+            for (int repetition = 1; repetition <= 10; ++repetition) {
+                int seed = repetition;
+                results.add(Controller.Hill_Climbing(seed, nUsers, usualNrequests, usualNservers, usualMinReplications,
+                        settledSolIni, settledOperatorS, usualHeuristicOne, 1));
             }
-            nUsers = 200;
-            for (int incS = 0; incS < 10; ++incS) {      //incrementar hasta ver tendencia
-                nServers += 50;
-                Controller.Hill_Climbing(seed, nUsers, nRequests, nServers, minReplications,
-                        settledSolIni, settledOperatorS, heuristic, criterion);
+
+        File file;
+        file = new File("data/experiment4.txt");
+        try {
+            file.delete();
+            file.createNewFile();
+            dumpResults("nUsers",results,file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("first part done. see results");
+
+        results = new ArrayList<>();
+        for (int nServers = 50; nServers <= 500; nServers += 50)    //incrementar hasta ver tendencia
+            for (int repetition = 1; repetition <= 10; ++repetition) {
+                int seed = repetition;
+                results.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests, nServers, usualMinReplications,
+                        settledSolIni, settledOperatorS, usualHeuristicOne, 1));
             }
+
+        try {
+            dumpResults("nServers",results,file);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private static void experiments5and6() {
-        int seed;
-        int nUsers = 200;
-        int nRequests = 5;          // max per user
-        int nServers = 50;
-        int minReplications = 5;    // per file
-        int solIni = 3;
-        String operatorS = "Move+Swap";
-        int criterion;
-        char heuristic;
+    private static void experiment5()
+    {
+        ArrayList<Results> r = new ArrayList<>();
 
-        for (int repetition = 0; repetition < 10; ++repetition) {
-            seed = repetition;
-            for (int op = 1; op <= 3; ++op) {
-                if (op == 1 || op == 3) {
-                    criterion = 1;
-                    heuristic = 'A';
-                } else {
-                    criterion = 2;
-                    heuristic = 'B';
-                }
-                if (op == 1 || op == 2) Controller.Hill_Climbing(seed, nUsers, nRequests, nServers, minReplications,
-                        settledSolIni, settledOperatorS, heuristic, criterion);
-                else Controller.Simmulated_Annealing(seed, nUsers, nRequests, nServers, minReplications,
-                        settledSolIni, settledOperatorS, heuristic, criterion,0,0,0,0);
-            }
+        // See experiment 1 (all the parameters of the search are the same with operator Both)
+        // Falta criterion 2
+
+        try {
+            File file = new File("data/experiment5.txt");
+            file.delete();
+            file.createNewFile();
+            dumpResults("Hill Climbing: Criterion 2",r,file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void experiment6()
+    {
+        ArrayList<Results> r1 = new ArrayList<>();
+        ArrayList<Results> r2 = new ArrayList<>();
+
+        for (int repetition = 1; repetition <= 10; ++repetition) {
+            int seed = repetition;
+            r1.add(Controller.Simmulated_Annealing(seed, usualNusers, usualNrequests,
+                    usualNservers, usualMinReplications, settledSolIni, settledOperatorS,
+                    usualHeuristicOne, 1, settledSteps, settledStiter, settledK, settledLamb));
+            r2.add(Controller.Simmulated_Annealing(seed, usualNusers, usualNrequests,
+                    usualNservers, usualMinReplications, settledSolIni, settledOperatorS,
+                    usualHeuristicTwo, 2, settledSteps, settledStiter, settledK, settledLamb));
+        }
+
+        try {
+            File file = new File("data/experiment6.txt");
+            file.delete();
+            file.createNewFile();
+            dumpResults("Simulated Annealing: Criterion 1",r1,file);
+            dumpResults("Simulated Annealing: Criterion 2",r2,file);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -220,8 +244,8 @@ public class Experiments {
         try {
             System.out.print("Introduce the experiment number.\n" +
                     "Experiment 1: operator sets\n" + "Experiment 2: initial solutions\n" +
-                    "Experiment 3:\n" + "Experiment 4:\n" +
-                    "Experiment 5:\n" + "Experiment 6:\n" +
+                    "Experiment 3: simulated annealing\n" + "Experiment 4: nUsers & nServers (long)\n" +
+                    "Experiment 5 Criterion 2:\n" + "Experiment 6: \n" +
                     "Experiment 7:\n" + "Experiment 8:\n" +
                     "Special Experiment 0\n" + "Debugging with code 66\n");
             Scanner scanner = new Scanner(System.in);
@@ -230,7 +254,7 @@ public class Experiments {
             experiment = 99;
         }
 
-        File directory = new File("data");
+        File directory = new File("./data");
         if (! directory.exists()){
             directory.mkdir();
         }
@@ -252,14 +276,16 @@ public class Experiments {
                 experiment4();
                 break;
             case 5:
+                experiment5();
+                break;
             case 6:
-                experiments5and6();
+                experiment6();
                 break;
             case 7:
                 experiment7();
                 break;
             case 8:
-                experiment8();
+                System.out.println("You just have been pranked");
                 break;
             case 66:
                 debugging();
