@@ -150,8 +150,7 @@ public class Board {
     public void initMaterialized() {
         initServerTimes();
         if (criterion == 1) reloadMaxTime();
-        //else if (criterion == 2) initTotalSquaredTime();
-        else if (criterion == 2) initDifference();
+        else if (criterion == 2) initTotalSquaredTime();
     }
 
     public void initDifference(){
@@ -181,7 +180,7 @@ public class Board {
         totalSquareTime = 0;
 
         for (int i = 0; i < nServers; ++i)
-            totalSquareTime += serverTimes.get(i) * serverTimes.get(i);
+            totalSquareTime += (long) serverTimes.get(i) * serverTimes.get(i);
     }
 
     public void move(int request, int newServer)
@@ -267,26 +266,26 @@ public class Board {
         }
     }
 
-    /*private void move2(int request, int newServer)
+    private void move2(int request, int newServer)
     {
         int user = requests.getRequest(request)[0];
         int oldServer = assignations.get(request);
 
         int time = serverTimes.get(oldServer);
-        totalSquareTime -= (time*time);
+        totalSquareTime -= (long) time * time;
         time -= servers.tranmissionTime(oldServer,user);
         totalTransmissionTime -= servers.tranmissionTime(oldServer,user);
         serverTimes.set(oldServer,time);
-        totalSquareTime += (time*time);
+        totalSquareTime += (long) time * time;
 
         assignations.set(request,newServer);
 
         time = serverTimes.get(newServer);
-        totalSquareTime -= (time*time);
+        totalSquareTime -= (long) time * time;
         time += servers.tranmissionTime(newServer,user);
         totalTransmissionTime += servers.tranmissionTime(newServer,user);
         serverTimes.set(newServer,time);
-        totalSquareTime += (time*time);
+        totalSquareTime += (long) time * time;
     }
 
     private void swap2(int req1, int req2)
@@ -298,70 +297,23 @@ public class Board {
 
         int time = serverTimes.get(serv1);
         totalTransmissionTime -= time;
-        totalSquareTime -= (time*time);
+        totalSquareTime -= (long) time * time;
         time -= servers.tranmissionTime(serv1,user1);
         assignations.set(req2,serv1);
         time += servers.tranmissionTime(serv1,user2);
-        totalSquareTime += (time*time);
+        totalSquareTime += (long) time * time;
         totalTransmissionTime += time;
         serverTimes.set(serv1,time);
 
         time = serverTimes.get(serv2);
         totalTransmissionTime -= time;
-        totalSquareTime -= (time*time);
+        totalSquareTime -= (long) time * time;
         time -= servers.tranmissionTime(serv2,user2);
         assignations.set(req1,serv2);
         time += servers.tranmissionTime(serv2,user1);
-        totalSquareTime += (time*time);
+        totalSquareTime += (long) time * time;
         totalTransmissionTime += time;
         serverTimes.set(serv2,time);
-    }*/
-
-    private void move2(int request, int newServer)
-    {
-        int user = requests.getRequest(request)[0];
-        int oldServer = assignations.get(request);
-
-        int time1 = serverTimes.get(oldServer);
-        int time2 = time1 - servers.tranmissionTime(oldServer, user);
-        totalTransmissionTime -= servers.tranmissionTime(oldServer, user);
-        serverTimes.set(oldServer, time2);
-
-        assignations.set(request, newServer);
-
-        time2 = serverTimes.get(newServer);
-        time2 += servers.tranmissionTime(newServer, user);
-        totalTransmissionTime += servers.tranmissionTime(newServer, user);
-        serverTimes.set(newServer, time2);
-
-        initDifference();
-    }
-
-    private void swap2(int req1, int req2)
-    {
-        int user1 = requests.getRequest(req1)[0];
-        int user2 = requests.getRequest(req2)[0];
-        int serv1 = assignations.get(req1);
-        int serv2 = assignations.get(req2);
-
-        int time1 = serverTimes.get(serv1);
-        totalTransmissionTime -= time1;
-        int time2 = time1 - servers.tranmissionTime(serv1, user1);
-        assignations.set(req2, serv1);
-        time2 += servers.tranmissionTime(serv1, user2);
-        totalTransmissionTime += time2;
-        serverTimes.set(serv1, time2);
-        processMaxTimes(time1, time2);
-
-        time1 = serverTimes.get(serv2);
-        totalTransmissionTime -= time1;
-        time2 = time1 - servers.tranmissionTime(serv2, user2);
-        assignations.set(req1, serv2);
-        time2 += servers.tranmissionTime(serv2, user1);
-        totalTransmissionTime += time2;
-        serverTimes.set(serv2, time2);
-
-        initDifference();
     }
 
     public Servers getServers() {

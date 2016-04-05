@@ -12,7 +12,6 @@ public class Results {
     private int maxservtime;
     private int numServs;
     private long totalsquare;
-    private int difference;
     Board init;
     Board end;
     private ArrayList<Integer> servtimes;
@@ -56,8 +55,6 @@ public class Results {
 
     public void setTotalsquare(long n) {totalsquare = n;}
 
-    public void setDiff(int diff) { difference = diff; }
-
     public void setAssig(ArrayList<Integer> v) { assig = v; }
 
     public String toString() {
@@ -67,7 +64,7 @@ public class Results {
 
     public String compareData(){
         int x, y, a;
-        int b;
+        long b;
         int crit = init.getCriterion();
         init.initMaterialized();
         end.initMaterialized();
@@ -77,13 +74,13 @@ public class Results {
         if (crit == 1){
             b = end.getMaxServerTime()/2;
         }
-        else b = end.getDifference();
+        else b = end.getTotalSquareTime();
         String s = "Are results equal?\n";
         s = s.concat("solIniTrans: ");
         s = s.concat(String.valueOf(x == solIniTrans) + ("\n"));
         s = s.concat("Total transmission time: ");
         s = s.concat(String.valueOf(finalTransmission == y) + ("\n"));
-        s = s.concat(init.getTotalTransmissionTime() + ("\n"));
+        s = s.concat(end.getTotalTransmissionTime() + ("\n"));
         s = s.concat("Num servers with max time: ");
         s = s.concat(String.valueOf(numServs == a) + ("\n"));
         int n = end.getnServers();
@@ -101,15 +98,10 @@ public class Results {
             s = s.concat("Max server time: ");
             s = s.concat(String.valueOf(maxservtime == b) + ("\n"));
         }
-        /*else {
+        else {
             s = s.concat("Total square time: ");
             s = s.concat(String.valueOf(totalsquare == b) + ("\n"));
             s = s.concat(totalsquare + " " + b);
-        }*/
-        else {
-            s = s.concat("Total difference: ");
-            s = s.concat(String.valueOf(difference == b) + ("\n"));
-            s = s.concat(difference + " " + b);
         }
         return s;
     }
