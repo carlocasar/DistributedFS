@@ -1,8 +1,10 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Results {
+    private int seed;
+    private int numUsers;
+    private int numRepl;
     private long solIniTime;
     private int solIniTrans;
     private long searchTime;
@@ -17,7 +19,7 @@ public class Results {
     private ArrayList<Integer> assig;
 
     public static final String
-            headers = "SolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tMaxServ/mean\tExecTime\tNodes";
+            headers = "Seed\tnUsers\tnServs\tnReplic\tSolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tMaxServ/Mean\tExecTime\tNodes";
 
     public void setSolIni(long iniTime, long finTime, int iniTrans){
         solIniTime = finTime - iniTime;
@@ -40,10 +42,12 @@ public class Results {
 
     public void setMaxservtime(int maxtime) { maxservtime = maxtime; }
 
-    public void setNumServs(int n) {numServs = n;}
-
     public void setInit(Board board) {
         init = new Board(board);
+        numServs = board.getnServers();
+        numRepl = board.getnRepls();
+        numUsers = board.getnUsers();
+        seed = board.getnSeed();
     }
 
     public void setEnd(Board board) {
@@ -55,7 +59,7 @@ public class Results {
     public void setAssig(ArrayList<Integer> v) { assig = v; }
 
     public String toString() {
-        String s = solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") + finalTransmission + ("\t");
+        String s = seed + ("\t") + numUsers + ("\t") + numServs + ("\t") + numRepl + ("\t") + solIniTime + ("\t") + solIniTrans + ("\t") + searchTime + ("\t") + finalTransmission + ("\t");
         if (end.getCriterion() == 1) s = s.concat(String.valueOf(maxservtime));
         else s = s.concat(String.valueOf(totalTime/numServs));
         s = s.concat("\t") + totalTime + ("\t") + nodes;

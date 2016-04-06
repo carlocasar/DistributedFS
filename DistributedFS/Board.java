@@ -11,6 +11,8 @@ public class Board {
     private static int nServers;                // Number of servers
     private static int nUsers;                  // Number of users
     private static int nRequests;               // Number of requests
+    private static int nRepls;                  // Number of replications
+    private static int nSeed;                   // Seed of this board
     private static Requests requests;           // Requests
     private static Servers servers;             // Servers
     private static int criterion;               // criterio para la calidad de la solucion,
@@ -22,7 +24,6 @@ public class Board {
     private long totalSquareTime;                // sum of server times^2, needed for std deviation.
     private int maxServerTime;                  // maximum of server times.
     private int maxTimeServers;                 // number of servers with maxServerTime.
-    private int difference;
 
 
     public Board(int users, int requs, int servs, int repls, int seed, int crit)
@@ -31,7 +32,8 @@ public class Board {
         nUsers = users;
         nServers = servs;
         nRequests = requs;
-
+        nRepls = repls;
+        nSeed = seed;
         try {
             requests = new Requests(users,requs,seed);
             servers = new Servers(servs,repls,seed);
@@ -41,7 +43,7 @@ public class Board {
 
         serverTimes = new ArrayList<Integer>();
         for (int i = 0; i < nServers; ++i) serverTimes.add(0);
-        totalTransmissionTime =  maxServerTime = maxTimeServers = difference = 0;
+        totalTransmissionTime =  maxServerTime = maxTimeServers = 0;
         totalSquareTime = 0;
     }
 
@@ -50,6 +52,8 @@ public class Board {
         nServers = original.getnServers();
         nUsers = original.getnUsers();
         nRequests = original.getnRequests();
+        nRepls = original.getnRepls();
+        nSeed = original.getnSeed();
         requests = original.getRequests();
         servers = original.getServers();
         assignations = new ArrayList<Integer>(original.getAssignations());
@@ -59,7 +63,6 @@ public class Board {
         totalTransmissionTime = original.getTotalTransmissionTime();
         totalSquareTime = original.getTotalSquareTime();
         maxTimeServers = original.getMaxTimeServers();
-        difference = original.getDifference();
     }
 
     /*
@@ -153,16 +156,6 @@ public class Board {
         else if (criterion == 2) initTotalSquaredTime();
     }
 
-    public void initDifference(){
-        int diff = 0;
-        int mean = totalTransmissionTime/nServers;
-        for (int i = 0; i < nServers; ++i){
-            int time = serverTimes.get(i);
-            if (time < mean) diff += mean - time;
-            else diff += time - mean;
-        }
-        difference = diff;
-    }
 
     private void initServerTimes() {
         totalTransmissionTime = 0;
@@ -362,7 +355,9 @@ public class Board {
 
     public int getMaxTimeServers() {return maxTimeServers;    }
 
-    public int getDifference() { return difference; }
+    public int getnRepls() { return nRepls; }
+
+    public int getnSeed() { return nSeed; }
 
     public String toString() {
         // retorna estat explicat en un string

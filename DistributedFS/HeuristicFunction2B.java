@@ -10,8 +10,6 @@ public class HeuristicFunction2B implements HeuristicFunction {
     @Override
     public double getHeuristicValue(Object o) {
         Board board = (Board) o;
-        double difference = board.getDifference();
-        double time = board.getTotalTransmissionTime();
-        return time + difference;
+        return (double) board.getTotalTransmissionTime();
     }
 }

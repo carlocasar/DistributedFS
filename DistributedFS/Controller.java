@@ -36,7 +36,6 @@ public class Controller {
             results.setSearchTime(startTime, endTime);
             results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
             results.setTotalTime(iniTime,endTime);
-            results.setNumServs(((Board) search.getGoalState()).getMaxTimeServers());
             results.setServerTimes(((Board) search.getGoalState()).getServerTimes());
             if (criterion == 1){
                 results.setMaxservtime(((Board) search.getGoalState()).getMaxServerTime());
@@ -44,18 +43,12 @@ public class Controller {
             results.setAssig(((Board) search.getGoalState()).getAssignations());
             results.setEnd((Board) search.getGoalState());
 
-            //System.out.println();                                   // lo guay seria pasarle el search agent
-            //printActions(agent.getActions());                       // al main y que soltar la salida desde ahi.
-            //printInstrumentation(agent.getInstrumentation());
             Properties p = agent.getInstrumentation();
             Iterator it = p.keySet().iterator();
             String key = (String) it.next();
             String prop = p.getProperty(key);
             results.setNodes(Integer.parseInt(prop));
 
-            /*System.out.println("Final state: ");
-            System.out.println(search.getGoalState());
-            System.out.println("Execution time: " + (endTime - startTime) + " ms");*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,6 +66,7 @@ public class Controller {
         initialSolution(initState,solIni);
         long finIniTime = System.currentTimeMillis();
 
+        results.setInit(initState);
         results.setSolIni(iniTime, finIniTime, initState.getTotalTransmissionTime());
 
         SuccessorFunction successorGen = operatorSet(operatorS,"Simulated Annealing");
@@ -82,14 +76,18 @@ public class Controller {
             long startTime = System.currentTimeMillis();
             Problem problem = new Problem(initState, successorGen, new GoalFalseTest(), heuristicF);
             SimulatedAnnealingSearch search = new SimulatedAnnealingSearch(steps,stiter,k,lamb);
-            //? search.traceOn();
             SearchAgent agent = new SearchAgent(problem, search);
             long endTime = System.currentTimeMillis();
 
             results.setSearchTime(startTime, endTime);
             results.setFinalTransmission(((Board) search.getGoalState()).getTotalTransmissionTime());
             results.setTotalTime(iniTime,endTime);
-            results.setMaxservtime(((Board) search.getGoalState()).getMaxServerTime());
+            results.setServerTimes(((Board) search.getGoalState()).getServerTimes());
+            if (criterion == 1){
+                results.setMaxservtime(((Board) search.getGoalState()).getMaxServerTime());
+            }
+            results.setAssig(((Board) search.getGoalState()).getAssignations());
+            results.setEnd((Board) search.getGoalState());
 
             Properties p = agent.getInstrumentation();
             Iterator it = p.keySet().iterator();

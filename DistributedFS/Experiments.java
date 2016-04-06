@@ -45,9 +45,9 @@ public class Experiments {
         ArrayList<Results> rMove = new ArrayList<>();
         ArrayList<Results> rSwap = new ArrayList<>();
         ArrayList<Results> rBoth = new ArrayList<>();
-
+        int seed;
         for (int repetition = 1; repetition <= 10; ++repetition) {
-            int seed = repetition;
+            seed = repetition;
             rMove.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
                     usualNservers, usualMinReplications, 3, move, usualHeuristicOne, 1));
             rSwap.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
@@ -74,9 +74,9 @@ public class Experiments {
         ArrayList<Results> rSI2 = new ArrayList<>();
         ArrayList<Results> rSI3 = new ArrayList<>();
         ArrayList<Results> rSI4 = new ArrayList<>();
-
+        int seed;
         for (int repetition = 1; repetition <= 10; ++repetition) {
-            int seed = repetition;
+            seed = repetition;
             for (int solIni = 1; solIni <= 4; ++solIni) {
                 rSI1.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
                         usualNservers, usualMinReplications, solIni, settledOperatorS, usualHeuristicOne, 1));
@@ -104,20 +104,40 @@ public class Experiments {
 
     private static void experiment3()
     {
-        int seed;
-        int nUsers = 200;
-        int nRequests = 5;          // max per user
-        int nServers = 50;
-        int minReplications = 5;    // per file
-        int criterion = 1;
-        char heuristic = 'A';
+        int seed = 1234;
+        ArrayList<Results> r1 = new ArrayList<>();
+        ArrayList<Results> r2 = new ArrayList<>();
+        ArrayList<Results> r3 = new ArrayList<>();
+        ArrayList<Results> r4 = new ArrayList<>();
+        int steps = 2000;
+        int stiter = 200;
+        int k = 10;
+        double lambda = 0.5;
 
         for (int repetition = 0; repetition < 10; ++repetition) {
-            seed = repetition;
-
-            Controller.Simmulated_Annealing(seed, nUsers, nRequests, nServers, minReplications,
-                    settledSolIni, settledOperatorS, heuristic, criterion,0,0,0,0);
-
+            r1.add(Controller.Simmulated_Annealing(seed, usualNusers, usualNrequests, usualNservers, usualMinReplications,
+                    settledSolIni, settledOperatorS, usualHeuristicOne, 1,steps,1000,50,0.05));
+            r2.add(Controller.Simmulated_Annealing(seed, usualNusers, usualNrequests, usualNservers, usualMinReplications,
+                    settledSolIni, settledOperatorS, usualHeuristicOne, 1,200000,stiter,50,0.05));
+            r3.add(Controller.Simmulated_Annealing(seed, usualNusers, usualNrequests, usualNservers, usualMinReplications,
+                    settledSolIni, settledOperatorS, usualHeuristicOne, 1,200000,1000,k,0.05));
+            r4.add(Controller.Simmulated_Annealing(seed, usualNusers, usualNrequests, usualNservers, usualMinReplications,
+                    settledSolIni, settledOperatorS, usualHeuristicOne, 1,200000,1000,50,lambda));
+            steps += 2000;
+            stiter *= 2;
+            k *= 5;
+            lambda /= 5;
+        }
+        try {
+            File file = new File("data/experiment3.txt");
+            file.delete();
+            file.createNewFile();
+            dumpResults("steps (usual = 200000, ini = 2000, + 2000)",r1,file);
+            dumpResults("stiter (usual = 1000, ini = 200, *2)",r2,file);
+            dumpResults("k (usual = 50, ini = 10, *5)",r3,file);
+            dumpResults("lambda (usual = 0.05, ini = 0.5, /5)",r4,file);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -208,26 +228,27 @@ public class Experiments {
 
     private static void experiment7() {
         int seed = 1;
-        int nUsers = 200;
-        int nRequests = 5;          // max per user
-        int nServers = 50;
         int minReplications = 5;    // per file
-        int criterion;
-        char heuristic;
+        ArrayList<Results> r1B = new ArrayList<>();
+        ArrayList<Results> r2A = new ArrayList<>();
+
 
         for (int repetition = 1; repetition <= 5; ++repetition) {
-            for (int op = 1; op <= 2; ++op) {
-                if (op == 1) {
-                    criterion = 1;
-                    heuristic = 'A';
-                } else {
-                    criterion = 2;
-                    heuristic = 'B';
-                }
-                Controller.Hill_Climbing(seed,nUsers,nRequests,nServers,minReplications,
-                        settledSolIni,settledOperatorS,heuristic,criterion);
-            }
+            r1B.add(Controller.Hill_Climbing(seed,usualNusers,usualNrequests,usualNservers,minReplications,
+                    settledSolIni,settledOperatorS,usualHeuristicOne,1));
+            r2A.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests, usualNservers, minReplications,
+                    settledSolIni, settledOperatorS, usualHeuristicTwo, 2));
             minReplications += 5;
+        }
+
+        try {
+            File file = new File("data/experiment7.txt");
+            file.delete();
+            file.createNewFile();
+            dumpResults("Simulated Annealing: Criterion 1",r1B,file);
+            dumpResults("Simulated Annealing: Criterion 2",r2A,file);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
