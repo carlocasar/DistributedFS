@@ -275,7 +275,7 @@ public class Experiments {
             System.out.print("Introduce the experiment number.\n" +
                     "Experiment 1: operator sets\n" + "Experiment 2: initial solutions\n" +
                     "Experiment 3: simulated annealing\n" + "Experiment 4: nUsers & nServers (long)\n" +
-                    "Experiment 5 Criterion 2:\n" + "Experiment 6: \n" +
+                    "Experiment 5: criteria comparative(HC)\n" + "Experiment 6: criteria comparative(SA)\n" +
                     "Experiment 7:\n" + "Experiment 8:\n" +
                     "Special Experiment 0\n" + "Debugging with code 66\n");
             Scanner scanner = new Scanner(System.in);

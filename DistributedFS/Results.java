@@ -19,7 +19,8 @@ public class Results {
     private ArrayList<Integer> assig;
 
     public static final String
-            headers = "Seed\tnUsers\tnServs\tnReplic\tSolIniTime\tSolIniTrans\tSearchTime\tTotalTime\tMaxServ/Mean\tExecTime\tNodes";
+            headers = "Seed\tnUsers\tnServs\tnReplic\tSolIniTime" +
+            "\tSolIniTrans\tSearchTime\tTotalTime\tMaxServ/Mean\tExecTime\tNodes";
 
     public void setSolIni(long iniTime, long finTime, int iniTrans){
         solIniTime = finTime - iniTime;
