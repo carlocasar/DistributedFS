@@ -15,10 +15,10 @@ public class Experiments {
     static final String settledOperatorS = "Move+Swap";
     static final int settledSolIni = 3;
 
-    static final int settledSteps = 0;
-    static final int settledStiter = 0;
-    static final int settledK = 0;
-    static final double settledLamb = 0;
+    static final int settledSteps = 1000000;
+    static final int settledStiter = 10000;
+    static final int settledK = 25;
+    static final double settledLamb = 0.0008;
 
     private static void experimentSp()      // Seed 1234
     {
@@ -211,7 +211,7 @@ public class Experiments {
         }
 
         try {
-            File file = new File("data/experiment6.txt");
+            File file = new File("data/experiment6_2.txt");
             file.delete();
             file.createNewFile();
             dumpResults("Simulated Annealing: Criterion 1",r1,file);
