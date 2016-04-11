@@ -77,16 +77,14 @@ public class Experiments {
         int seed;
         for (int repetition = 1; repetition <= 10; ++repetition) {
             seed = repetition;
-            for (int solIni = 1; solIni <= 4; ++solIni) {
                 rSI1.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
-                        usualNservers, usualMinReplications, solIni, settledOperatorS, usualHeuristicOne, 1));
+                        usualNservers, usualMinReplications, 1, settledOperatorS, usualHeuristicOne, 1));
                 rSI2.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
-                        usualNservers, usualMinReplications, solIni, settledOperatorS, usualHeuristicOne, 1));
+                        usualNservers, usualMinReplications, 2, settledOperatorS, usualHeuristicOne, 1));
                 rSI3.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
-                        usualNservers, usualMinReplications, solIni, settledOperatorS, usualHeuristicOne, 1));
+                        usualNservers, usualMinReplications, 3, settledOperatorS, usualHeuristicOne, 1));
                 rSI4.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests,
-                        usualNservers, usualMinReplications, solIni, settledOperatorS, usualHeuristicOne, 1));
-            }
+                        usualNservers, usualMinReplications, 4, settledOperatorS, usualHeuristicOne, 1));
         }
 
         try {
@@ -144,12 +142,11 @@ public class Experiments {
     private static void experiment4()       // Experimenting with nUsers & nServers
     {
         ArrayList<Results> results = new ArrayList<>();
+        int seed = 2;
         for (int nUsers = 100; nUsers <= 1000; nUsers += 100)       //incrementar hasta ver tendencia
-            for (int repetition = 1; repetition <= 10; ++repetition) {
-                int seed = repetition;
                 results.add(Controller.Hill_Climbing(seed, nUsers, usualNrequests, usualNservers, usualMinReplications,
                         settledSolIni, settledOperatorS, usualHeuristicOne, 1));
-            }
+
 
         File file;
         file = new File("data/experiment4.txt");
@@ -165,11 +162,9 @@ public class Experiments {
 
         results = new ArrayList<>();
         for (int nServers = 50; nServers <= 500; nServers += 50)    //incrementar hasta ver tendencia
-            for (int repetition = 1; repetition <= 10; ++repetition) {
-                int seed = repetition;
                 results.add(Controller.Hill_Climbing(seed, usualNusers, usualNrequests, nServers, usualMinReplications,
                         settledSolIni, settledOperatorS, usualHeuristicOne, 1));
-            }
+
 
         try {
             dumpResults("nServers",results,file);
