@@ -71,18 +71,12 @@ public class Board {
      */
     public void solIni1(){
         assignations = new ArrayList<Integer>(requests.size());
-        //vamos a iterar sobre todas las request para asignarles un servidor
         for (int i = 0; i < requests.size(); ++i) {
-            //aqui se coge el archivo
             int fileReq = requests.getRequest(i)[1];
-            //se pregunta en que servidores esta
             Set<Integer> set = servers.fileLocations(fileReq);
-            //aqui se hace el proceso de iterar sobre el set. No se hace mas que una vez porque es un algoritmo de
-            //mierda, pero se tendria que hacer un for para iterar sobre los demas
             Iterator<Integer> it = set.iterator();
             Integer server = it.next();
             assignations.add(i, server);
-
         }
         initMaterialized();
     }
@@ -90,14 +84,9 @@ public class Board {
     public void solIni2(){
         assignations = new ArrayList<Integer>(requests.size());
         ArrayList<Integer> numReqServ = new ArrayList<Integer>(Collections.nCopies(servers.size(), 0));
-        //vamos a iterar sobre todas las request para asignarles un servidor
         for (int i = 0; i < requests.size(); ++i) {
-            //aqui se coge el archivo
             int fileReq = requests.getRequest(i)[1];
-            //se pregunta en que servidores esta
             Set<Integer> set = servers.fileLocations(fileReq);
-            //aqui se hace el proceso de iterar sobre el set. No se hace mas que una vez porque es un algoritmo de
-            //mierda, pero se tendria que hacer un for para iterar sobre los demas
             int min = 0;
             Integer aux = 0;
             Iterator<Integer> it = set.iterator();
@@ -117,11 +106,8 @@ public class Board {
     public void solIni3(){
         assignations = new ArrayList<Integer>(requests.size());
         Map<Integer, Iterator<Integer>> fileDic = new HashMap<Integer, Iterator<Integer>>();
-        //vamos a iterar sobre todas las request para asignarles un servidor
         for (int i = 0; i < requests.size(); ++i) {
-            //aqui se coge el archivo
             int fileReq = requests.getRequest(i)[1];
-
             if(! fileDic.containsKey(fileReq))
                 fileDic.put(fileReq,servers.fileLocations(fileReq).iterator());
             Iterator<Integer> it = fileDic.get(fileReq);
@@ -360,7 +346,6 @@ public class Board {
     public int getnSeed() { return nSeed; }
 
     public String toString() {
-        // retorna estat explicat en un string
         String s = "";
         int numServ;
         for (int i = 0; i < assignations.size(); i++) {

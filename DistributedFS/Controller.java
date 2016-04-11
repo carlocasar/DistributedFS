@@ -94,14 +94,6 @@ public class Controller {
             String key = (String) it.next();
             String prop = p.getProperty(key);
             results.setNodes(Integer.parseInt(prop));
-
-            /*System.out.println();
-            //printActions(agent.getActions());
-            //printInstrumentation(agent.getInstrumentation());
-            System.out.println("Final state: ");
-            System.out.println(search.getGoalState());
-            System.out.println("Execution time: " + (endTime - startTime) + " ms");*/
-
         } catch (Exception e) {
             e.printStackTrace();
         }

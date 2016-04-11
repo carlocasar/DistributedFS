@@ -21,20 +21,3 @@ public class prueba {
         System.out.println(stdev);        // hasta aquí guay
     }
 }
-
-// 200 users
-// 5 reqs/user (max)
-// maxTransmisionTime = 5000
-
-/*
-Board board = (Board) o;
-        int nServers = board.getnServers();
-        int totalTransmissionTime = board.getTotalTransmissionTime();
-        long totalSquareTime = board.getTotalSquareTime();
-
-        double mean = totalTransmissionTime / (double)nServers;
-        double variance = (totalSquareTime / (double)nServers) - mean * mean;
-        double stdev = java.lang.Math.sqrt(variance);
-
-        return mean + stdev;
- */
