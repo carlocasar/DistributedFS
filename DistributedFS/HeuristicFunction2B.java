@@ -3,7 +3,7 @@ import aima.search.framework.HeuristicFunction;
 import java.util.ArrayList;
 
 /**
- * Created by gerard.otero on 01/04/2016.
+ * Only cares about Total transmission time
  */
 public class HeuristicFunction2B implements HeuristicFunction {
 
